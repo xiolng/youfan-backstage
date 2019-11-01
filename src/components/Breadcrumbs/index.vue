@@ -5,10 +5,12 @@
         <Icon type="md-home"></Icon>
         首页
       </BreadcrumbItem>
+      <!--一级导航-->
       <BreadcrumbItem>
         <Icon type="ios-bookmark"></Icon>
         {{getBreadParent}}
       </BreadcrumbItem>
+      <!--二级导航-->
       <BreadcrumbItem>
         <Icon type="ios-bookmark-outline"></Icon>
         {{getBreadName}}

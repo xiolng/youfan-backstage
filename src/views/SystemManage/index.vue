@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="system-box">
     <router-view />
   </div>
 </template>
@@ -12,6 +12,7 @@
   }
 </script>
 
-<style scoped>
-
+<style scoped lang="stylus">
+.system-box
+  height 100%
 </style>

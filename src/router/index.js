@@ -67,7 +67,7 @@ const routes = [
           {
             path: '',
             name: '商铺列表',
-            component: () => import('@/views/ShopManage/ShopList')
+            component: () => import('@/views/ShopManage/List')
           },
           {
             path: 'qr',
@@ -77,16 +77,16 @@ const routes = [
         ]
       },
       {
-        path: 'preferentialHandling',
+        path: 'discounts',
         name: '优惠管理',
         icon: 'md-pricetags',
-        component: () => import('@/views/PreferentialHandling'),
+        component: () => import('@/views/DiscountsManage'),
         redirect: { name: '优惠信息' },
         children: [
           {
             path: '',
             name: '优惠信息',
-            component: () => import('@/views/PreferentialHandling/List')
+            component: () => import('@/views/DiscountsManage/List')
           },
         ]
       },
@@ -100,19 +100,16 @@ const routes = [
           {
             path: '',
             name: '流水',
-            component: () => import('@/views/PayManage/BillList')
+            component: () => import('@/views/PayManage/List')
           },
         ]
       },
     ]
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login')
   }
 ]
 

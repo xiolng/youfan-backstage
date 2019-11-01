@@ -1,17 +1,12 @@
 <template>
-  <div class="card-box">
-    <!--搜索，导入会员-->
+  <div class="Shop-box">
+    <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <Input size="default" search enter-button="搜索" placeholder="请输入会员名。。。"/>
+        <Input size="default" search enter-button="搜索" placeholder="请输入商铺名。。。"/>
       </Col>
       <Col>
-        <Upload action="/">
-          <Button size="default" type="primary">
-            <Icon type="ios-cloud-upload-outline"></Icon>
-            导入会员
-          </Button>
-        </Upload>
+        <Button size="default" type="primary" @click="showAdd = !showAdd">新增</Button>
       </Col>
     </Row>
     <!--table列表-->
@@ -23,7 +18,6 @@
         size="default"
         max-height="400"
         class="table"
-        ref="table"
       >
         <!--操作-->
         <div slot="action">
@@ -48,12 +42,13 @@
       :current="4"
       show-total
     />
-    <!--编辑会员-->
-    <EditMember :callback="saveAdd" :show="showAdd"></EditMember>
+    <!--新增商铺-->
+    <AddShop :callback="saveAdd" :show="showAdd"></AddShop>
+    <!--删除商铺-->
     <Modal
       v-model="showDel"
-      title="删除会员"
-      @on-ok="delCard"
+      title="删除商铺"
+      @on-ok="delShop"
     >
       <Row type="flex" justify="center" align="middle" :gutter="10">
         <Col>
@@ -68,23 +63,23 @@
 </template>
 
 <script>
-  import EditMember from '@/views/MemberManage/List/EditMember'
+  import AddShop from '@/views/ShopManage/List/AddShop'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '会员名',
+            title: '商铺名',
             key: 'name'
           },
           {
-            title: '卡券',
-            key: 'coupon'
+            title: '联系电话',
+            key: 'phone'
           },
           {
-            title: '次数',
-            key: 'count'
+            title: '地址',
+            key: 'address'
           },
           {
             title: '操作',
@@ -94,24 +89,24 @@
         ],
         data1: [
           {
-            name: 'member1',
-            coupon: '5',
-            count: '3'
+            name: '新天地购物中心',
+            phone: '13333333333',
+            address: '吉林省长春市朝阳区'
           },
           {
-            name: 'member2',
-            coupon: '15',
-            count: '10'
+            name: '新天地购物中心',
+            phone: '13333333333',
+            address: '吉林省长春市朝阳区'
           },
           {
-            name: 'member3',
-            coupon: '25',
-            count: '20'
+            name: '新天地购物中心',
+            phone: '13333333333',
+            address: '吉林省长春市朝阳区'
           },
           {
-            name: 'member4',
-            coupon: '35',
-            count: '16'
+            name: '新天地购物中心',
+            phone: '13333333333',
+            address: '吉林省长春市朝阳区'
           }
         ],
         showAdd: false,
@@ -122,12 +117,12 @@
       saveAdd () {
         this.showAdd = false
       },
-      delCard () {
+      delShop () {
         this.showDel = false
       }
     },
     components: {
-      EditMember
+      AddShop
     }
   }
 </script>

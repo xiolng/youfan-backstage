@@ -1,17 +1,22 @@
 <template>
   <div id="layouts">
     <Layout>
-      <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+      <!--左侧 侧边栏-->
+      <Sider ref="side1" hide-trigger collapsible v-model="isCollapsed">
+        <!--logo-->
         <!--logo-->
         <div class="logo-box">
           <img src="../../assets/logo.png" alt="">
         </div>
+        <!--菜单-->
         <Menus :is-collapsed="isCollapsed"/>
       </Sider>
       <Layout>
+        <!--头部信息-->
         <Header :style="{padding: 0}" class="layout-header-bar">
           <Row type="flex" justify="space-between" align="middle">
             <Col>
+              <!--收起菜单，面包屑-->
               <Row type="flex" justify="start">
                 <Col>
                   <!--trigger--menu-->
@@ -20,7 +25,7 @@
                 </Col>
                 <Col>
                   <!--面包屑-->
-                  <Breadcrumbs />
+                  <Breadcrumbs/>
                 </Col>
               </Row>
             </Col>
@@ -28,18 +33,17 @@
               <Row type="flex" justify="end" :gutter="20">
                 <Col>
                   <!--全屏-->
-                  <FullScreen />
+                  <FullScreen/>
                 </Col>
                 <Col>
                   <!--用户-->
-                  <Users />
+                  <Users/>
                 </Col>
               </Row>
             </Col>
           </Row>
         </Header>
         <Content class="layouts-content">
-          1111
           <router-view/>
         </Content>
       </Layout>
@@ -59,6 +63,7 @@
       }
     },
     computed: {
+      // 收起菜单
       rotateIcon () {
         return [
           'menu-icon',
@@ -67,6 +72,7 @@
       },
     },
     methods: {
+      // 绑定收起菜单按钮
       collapsedSider () {
         this.$refs.side1.toggleCollapse()
       }
@@ -103,10 +109,18 @@
       border-radius 3px
       margin 15px auto
 
+    .menu-icon
+      transition all .3s
+
+    .rotate-icon
+      transform rotate(-90deg)
+
     .logo-box
       height 64px
       line-height 64px
       text-align center
+      border-bottom 1px solid #999
+      box-shadow 0 1px 1px rgba(255, 255, 255, .1)
 
       img
         height 70%

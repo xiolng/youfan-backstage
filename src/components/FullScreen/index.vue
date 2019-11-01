@@ -9,6 +9,7 @@
 <script>
   export default {
     computed: {
+      // 低版本ie不显示全屏按钮
       showFullScreenBtn () {
         return window.navigator.userAgent.indexOf('MSIE') < 0
       }

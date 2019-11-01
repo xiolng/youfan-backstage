@@ -1,6 +1,7 @@
 <template>
   <div>
     <Menu
+      v-if="menuList.length"
       :active-name="getMenuItem"
       :open-names="getMenuSub"
       theme="dark"
@@ -10,13 +11,16 @@
       @on-select="SelectMenu"
       @on-open-change="OpenMenu"
     >
-      <Submenu v-for="item in routes[0].children" :name="item.name" :key="item.name">
+      <!--菜单循环-->
+      <Submenu v-for="item in menuList" :name="item.title" :key="item.title">
         <template slot="title">
           <Icon :type="item.icon"></Icon>
-          {{item.name}}
+          <span>{{item.title}}</span>
         </template>
-        <MenuItem v-for="list in item.children" :name="list.name" :key="list.name" :to="{name: list.name}">
-          {{list.name}}
+        <!--二级菜单-->
+        <MenuItem v-for="list in item.children" :name="list.title" :key="list.title" :to="{name: list.title}"
+                  class="side-item">
+          <span>{{list.title}}</span>
         </MenuItem>
       </Submenu>
     </Menu>
@@ -24,8 +28,9 @@
 </template>
 
 <script>
-  import routes from '@/router'
+  import { getMenuList } from '@/api/systemManage/menu'
   import { mapMutations, mapGetters } from 'vuex'
+  import { treeMenu } from '@/utils/menu'
 
   export default {
     props: {
@@ -33,11 +38,14 @@
     },
     data () {
       return {
-        routes,
+        menuList: [],
         parentName: JSON.parse(localStorage.getItem('menuSub'))
       }
     },
     created () {
+    },
+    mounted () {
+      this.getList()
     },
     methods: {
       ...mapMutations({
@@ -46,6 +54,12 @@
         setMenuSub: 'SETMENUSUB',
         setMenuItem: 'SETMENUITEM',
       }),
+      getList () {
+        getMenuList().then(res => {
+          this.menuList = treeMenu(res.data.data)
+        })
+      },
+      // 菜单选择，设置缓存
       SelectMenu (e) {
         this.setMenuItem(e)
         this.setBreadName(e)
@@ -65,6 +79,7 @@
         'getMenuSub',
         'getMenuItem'
       ]),
+      // 菜单展开
       menuitemClasses () {
         return [
           'menu-item',
@@ -75,18 +90,13 @@
   }
 </script>
 
-<style scoped lang="stylus">
-  .menu-icon
-    transition all .3s
-
-  .rotate-icon
-    transform rotate(-90deg)
-
+<style lang="stylus">
+  /*二级菜单*/
   .menu-item
     span
       display inline-block
       overflow hidden
-      width 69px
+      width 120px
       text-overflow ellipsis
       white-space nowrap
       vertical-align bottom
@@ -98,9 +108,27 @@
       vertical-align middle
       font-size 16px
 
+  /*菜单收起时*/
   .collapsed-menu
+    .ivu-menu-child-item-active
+      .ivu-icon
+        color #2d8cf0
+
+    .ivu-menu-submenu-title
+      padding 14px 16px
+
+    .ivu-menu-submenu
+      position relative
+
+      &:hover
+        .ivu-menu
+          display block !important
+
+      .ivu-menu-submenu-title-icon
+        display none
+
     span
-      width 0px
+      width 0
       transition width .2s ease
 
     i
@@ -108,4 +136,14 @@
       transition font-size .2s ease .2s, transform .2s ease .2s
       vertical-align middle
       font-size 22px
+
+    .ivu-menu
+      background #555
+      position absolute
+      display none
+      top 0
+      left 64px
+
+      span
+        width auto
 </style>

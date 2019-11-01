@@ -9,17 +9,16 @@ import 'view-design/dist/styles/iview.css'
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(ViewUI, {
-  transfer: true,
-  size: 'small'
+  transfer: false,
+  size: 'default'
 })
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
-console.log(store)
 new Vue({
   router,
   store,
