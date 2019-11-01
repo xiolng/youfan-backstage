@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^3.3.2",
+    "mddir": "^1.1.1",
     "qrcode": "^1.4.2",
     "view-design": "^4.0.2",
     "vue": "^2.6.10",
