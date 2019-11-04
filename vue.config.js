@@ -28,9 +28,15 @@ module.exports = {
     // disableHostCheck: true,
     proxy: {
       '/system': {
-        target: 'http://192.168.1.171:8088',
+        target: 'http://192.168.1.171:8080',
         pathRewrite: {
           '^/system': '/system'
+        }
+      },
+      '/business': {
+        target: 'http://192.168.1.171:8080',
+        pathRewrite: {
+          '^/business': '/business'
         }
       },
     }

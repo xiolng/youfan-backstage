@@ -2,7 +2,7 @@
   <div class="add-user">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
       <FormItem label="上级菜单">
-        <Input :value="menuId.data.title" disabled/>
+        <Input :value="menuData.data.title" disabled/>
       </FormItem>
       <FormItem label="地址" prop="path">
         <Input v-model="formValidate.path" placeholder="请输入地址名"/>
@@ -31,7 +31,7 @@
   export default {
     props: {
       callback: Function,
-      menuId: Object
+      menuData: Object
     },
     data () {
       return {
@@ -55,17 +55,18 @@
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
             saveMenu({
-              parentId: this.menuId.data.id,
+              parentId: this.menuData.data.id,
               ...this.formValidate
             }).then(res => {
               if (+res.data.code === 0) {
-                this.$Message.success('Success!')
+                this.$Message.success('编辑成功!')
+                this.$store.dispatch('commitMenus')
                 this.$refs['formValidate'].resetFields()
                 this.callback()
               }
             })
           } else {
-            this.$Message.error('Fail!')
+            this.$Message.error('请输入完整信息!')
           }
         })
       },

@@ -14,8 +14,8 @@
       @on-ok="showDel ? delRole() : ''"
     >
       <!--添加菜单-->
-      <AddMenu v-if="showAdd" :callback="addMenu" :menu-id="menuId"/>
-      <EditMenu v-if="showEdit" :callback="addMenu" :menu-id="menuId"/>
+      <AddMenu v-if="showAdd" :callback="addMenu" :menu-data="menuData"/>
+      <EditMenu v-if="showEdit" :callback="addMenu" :menu-data="menuData"/>
       <!--删除角色-->
       <Row type="flex" justify="center" align="middle" :gutter="10" v-if="showDel">
         <Col>
@@ -33,7 +33,7 @@
   import AddMenu from '@/views/SystemManage/MenuManage/AddMenu'
   import EditMenu from '@/views/SystemManage/MenuManage/EditMenu'
   import { deleteMenu, getMenuList } from '@/api/systemManage/menu'
-  import { treeMenu } from '@/utils/menu'
+  import { treeMenu, rootFun, renderContent } from '@/utils/menu'
 
   export default {
     data () {
@@ -42,57 +42,17 @@
           {
             title: '菜单',
             expand: true,
-            render: (h, { root, node, data }) => {
-              const vm = this
-              // root 根级目录
-              return h('span', {
-                style: {
-                  display: 'inline-block',
-                  width: '100%'
-                }
-              }, [
-                h('span', {
-                  style: {
-                    marginRight: '20px'
-                  }
-                }, data.title),
-                h('Tooltip', {
-                  props: {
-                    content: '添加一级菜单',
-                    placement: 'top'
-                  },
-                }, [
-                  h('Icon', {
-                    props: {
-                      type: 'md-add',
-                      size: 18
-                    },
-                    on: {
-                      click () {
-                        console.log(this)
-                        vm.showModal = !vm.showModal
-                        vm.showAdd = !vm.showAdd
-                        vm.menuId = {
-                          data: {
-                            id: '0',
-                            title: 'root'
-                          }
-                        }
-                      }
-                    }
-                  })
-                ])
-              ])
-            },
+            render: rootFun.bind(this),
             // 菜单列表
             children: []
           }
         ],
-        showModal: false,
-        showAdd: false,
-        showEdit: false,
-        showDel: false,
-        menuId: {}
+        showModal: false, // 弹窗组件，多个添加，编辑，删除，共用一个
+        showAdd: false, // 添加弹窗
+        showEdit: false, // 编辑弹窗
+        showDel: false, // 删除弹窗
+        menuData: {}, // 选中菜单内容
+        renderContent: renderContent.bind(this) // 菜单列表 增删改 按钮
       }
     },
     mounted () {
@@ -101,178 +61,102 @@
     methods: {
       getList () {
         getMenuList().then(res => {
-          this.treeList[0].children = treeMenu(res.data.data)
-        })
-      },
-      // 菜单操作按钮组，
-      renderContent (h, { root, node, data }) {
-        const vm = this
-        return h('span', {
-          style: {
-            display: 'inline-block',
-            width: '100%',
-            paddingBottom: '4px',
-            borderBottom: '1px solid #eee'
-          }
-        }, [
-          h('Row', {
-            props: {
-              type: 'flex',
-              gutter: 10,
-              justify: 'space-between'
-            }
-          }, [
-            h('Col', {
-              props: {
-                span: '12'
-              }
-            }, [
-              h('span', {
-                style: {
-                  lineHeight: '24px',
-                  width: '100%',
-                  cursor: 'pointer',
-                  display: 'inline-block',
-                  background: '#fdfdfd'
+          // this.treeList[0].children = treeMenu(res.data.data)
+          this.treeList[0].children = [
+            {
+              path: 'system',
+              title: '系统管理',
+              icon: 'md-settings',
+              redirect: { title: '用户管理' },
+              children: [
+                {
+                  path: '',
+                  title: '用户管理',
                 },
-                on: {
-                  click: () => {
-                    this.$set(data, 'expand', !data.expand)
-                  }
-                }
-              }, [
-                h('span', {
-                  style: {
-                    fontSize: 20,
-                    marginRight: '20px'
-                  }
-                }, [
-                  h('Icon', {
-                    props: {
-                      type: data.icon,
-                      color: '#ccc'
-                    }
-                  }),
-                  h('span', {
-                    style: {
-                      display: 'inline-block',
-                      margin: '0 10px'
-                    }
-                  }, data.title),
-                  h('span', {
-                    style: {
-                      color: '#ccc',
-                      fontSize: '12px'
-                    }
-                  }, `地址： ${data.path}`)
-                ])
-              ]),
-            ]),
-            h('Col', [
-              h('Row', {
-                props: {
-                  type: 'flex',
-                  gutter: 10
-                }
-              }, [
-                h('Col', [
-                  h('Tooltip', {
-                    props: {
-                      content: '编辑',
-                      placement: 'top'
-                    },
-                    style: {
-                      cursor: 'pointer'
-                    }
-                  }, [
-                    h('Icon', {
-                      props: {
-                        type: 'md-create',
-                        size: 15
-                      },
-                      on: {
-                        click () {
-                          const parentKey = root.find(el => el === node).parent
-                          const parent = root.find(el => el.nodeKey === parentKey).node
-                          vm.menuId = {
-                            id: data.id,
-                            parent: parent
-                          }
-                          vm.showModal = !vm.showModal
-                          vm.showEdit = !vm.EditMenu
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                h('Col', [
-                  h('Tooltip', {
-                    props: {
-                      content: '添加',
-                      placement: 'top'
-                    },
-                    style: {
-                      cursor: 'pointer'
-                    }
-                  }, [
-                    h('Icon', {
-                      props: {
-                        type: 'md-add',
-                        size: 18
-                      },
-                      on: {
-                        click () {
-                          const parentKey = root.find(el => el === node).parent
-                          const parent = root.find(el => el.nodeKey === parentKey).node
-                          vm.menuId = {
-                            data,
-                            parent: parent
-                          }
-                          vm.showModal = !vm.showModal
-                          vm.showAdd = !vm.showAdd
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                h('Col', [
-                  h('Tooltip', {
-                    props: {
-                      content: '删除',
-                      placement: 'top'
-                    },
-                    style: {
-                      cursor: 'pointer'
-                    }
-                  }, [
-                    h('Icon', {
-                      props: {
-                        type: 'md-trash',
-                        size: 15
-                      },
-                      on: {
-                        click () {
-                          if (data.children && data.children.length >= 1) {
-                            vm.$Message.error('请先删除子级菜单')
-                            return false
-                          }
-                          vm.removeRole(data)
-                        }
-                      }
-                    })
-                  ])
-                ]),
-              ])
-            ]),
-          ])
-        ])
+                {
+                  path: 'role',
+                  title: '角色管理',
+                },
+                {
+                  path: 'menu',
+                  title: '菜单管理',
+                },
+              ]
+            },
+            {
+              path: 'card',
+              title: '卡券管理',
+              icon: 'md-card',
+              redirect: { title: '卡券列表' },
+              children: [
+                {
+                  path: '',
+                  title: '卡券列表',
+                },
+              ]
+            },
+            {
+              path: 'member',
+              title: '会员管理',
+              icon: 'md-contacts',
+              redirect: { title: '会员列表' },
+              children: [
+                {
+                  path: '',
+                  title: '会员列表',
+                },
+              ]
+            },
+            {
+              path: 'shop',
+              title: '商铺管理',
+              icon: 'ios-home',
+              redirect: { title: '商铺列表' },
+              children: [
+                {
+                  path: '',
+                  title: '商铺列表',
+                },
+                {
+                  path: 'qr',
+                  title: '收款二维码',
+                },
+              ]
+            },
+            {
+              path: 'discounts',
+              title: '优惠管理',
+              icon: 'md-pricetags',
+              redirect: { title: '优惠信息' },
+              children: [
+                {
+                  path: '',
+                  title: '优惠信息',
+                },
+              ]
+            },
+            {
+              path: 'pay',
+              title: '支付管理',
+              icon: 'logo-yen',
+              redirect: { title: '流水' },
+              children: [
+                {
+                  path: '',
+                  name: '流水',
+                },
+              ]
+            },
+          ]
+        })
       },
       // 添加菜单
       addMenu () {
         this.showModal = false
         this.showAdd = false
         this.showEdit = false
-        this.menuId = {}
+        this.showDel = false
+        this.menuData = {}
         this.getList()
       },
       /**
@@ -290,6 +174,7 @@
         }).then(res => {
           if (+res.data.code === 0) {
             this.getList()
+            this.$store.dispatch('commitMenus')
             this.$Message.success('删除成功')
             this.showDel = false
           }
@@ -299,7 +184,8 @@
         this.showModal = false
         this.showAdd = false
         this.showEdit = false
-        this.menuId = {}
+        this.showDel = false
+        this.menuData = {}
       }
     },
     components: {

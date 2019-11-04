@@ -18,8 +18,13 @@
           <span>{{item.title}}</span>
         </template>
         <!--二级菜单-->
-        <MenuItem v-for="list in item.children" :name="list.title" :key="list.title" :to="{name: list.title}"
-                  class="side-item">
+        <MenuItem
+          v-for="list in item.children"
+          :name="list.title"
+          :key="list.title"
+          :to="{name: list.title}"
+          class="side-item"
+        >
           <span>{{list.title}}</span>
         </MenuItem>
       </Submenu>
@@ -28,7 +33,6 @@
 </template>
 
 <script>
-  import { getMenuList } from '@/api/systemManage/menu'
   import { mapMutations, mapGetters } from 'vuex'
   import { treeMenu } from '@/utils/menu'
 
@@ -38,27 +42,19 @@
     },
     data () {
       return {
-        menuList: [],
         parentName: JSON.parse(localStorage.getItem('menuSub'))
       }
     },
-    created () {
-    },
     mounted () {
-      this.getList()
+      this.$store.dispatch('commitMenus')
     },
     methods: {
       ...mapMutations({
         setBreadParent: 'SETBREADPARENT',
         setBreadName: 'SETBREADNAME',
         setMenuSub: 'SETMENUSUB',
-        setMenuItem: 'SETMENUITEM',
+        setMenuItem: 'SETMENUITEM'
       }),
-      getList () {
-        getMenuList().then(res => {
-          this.menuList = treeMenu(res.data.data)
-        })
-      },
       // 菜单选择，设置缓存
       SelectMenu (e) {
         this.setMenuItem(e)
@@ -77,7 +73,8 @@
         'getBreadParent',
         'getBreadName',
         'getMenuSub',
-        'getMenuItem'
+        'getMenuItem',
+        'getMenus'
       ]),
       // 菜单展开
       menuitemClasses () {
@@ -86,6 +83,9 @@
           this.isCollapsed ? 'collapsed-menu' : ''
         ]
       },
+      menuList () {
+        return treeMenu(this.getMenus)
+      }
     }
   }
 </script>

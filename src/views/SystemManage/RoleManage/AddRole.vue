@@ -80,7 +80,7 @@
               }
             })
           } else {
-            this.$Message.error('Fail!')
+            this.$Message.error('请输入完整信息!')
           }
         })
       },

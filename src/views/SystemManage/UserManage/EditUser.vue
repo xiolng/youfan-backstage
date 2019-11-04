@@ -8,7 +8,7 @@
         <Input v-model="formValidate.phone" placeholder="请输入电话"/>
       </FormItem>
       <FormItem label="角色">
-        <Select v-model="formValidate.roleId" multiple>
+        <Select v-model="formValidate.roleId">
           <Option :value="item.id" v-for="item in roleList" :key="item.id">{{item.roleName}}</Option>
         </Select>
       </FormItem>
@@ -67,7 +67,7 @@
             { validator: validatePhone, trigger: 'change' }
           ],
           roleId: [
-            { required: true, message: '请选择角色', trigger: 'change blur' }
+            { required: true, message: '请选择角色', trigger: 'change' }
           ],
         },
         roleList: []
@@ -95,8 +95,8 @@
             editUserDetail({
               id: this.formValidate.id,
               username: this.formValidate.username,
-              phone: this.formValidate.phone,
-              roleId: this.formValidate.roleId
+              phone: this.formValidate.phone + '',
+              roleId: [this.formValidate.roleId]
             }).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('编辑成功')
@@ -104,7 +104,7 @@
               }
             })
           } else {
-            this.$Message.error('Fail!')
+            this.$Message.error('请输入完整信息!')
           }
         })
       },

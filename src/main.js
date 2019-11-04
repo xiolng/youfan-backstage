@@ -13,6 +13,12 @@ Vue.use(ViewUI, {
   size: 'default'
 })
 
+const url = `${location.protocol}//webapi.amap.com/maps?v=1.4.15&key=b1bdd140fb83906f9f6e847927a63d9a&plugin=AMap.Scale,AMap.ToolBar`
+const jsapi = document.createElement('script')
+jsapi.charset = `utf-8`
+jsapi.src = url
+document.body.appendChild(jsapi)
+
 const router = new VueRouter({
   // mode: 'history',
   base: process.env.BASE_URL,

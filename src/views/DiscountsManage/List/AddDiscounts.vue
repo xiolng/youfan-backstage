@@ -59,10 +59,10 @@
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
-            this.$Message.success('Success!')
+            this.$Message.success('编辑成功!')
             this.callback()
           } else {
-            this.$Message.error('Fail!')
+            this.$Message.error('请输入完整信息!')
           }
         })
       },
