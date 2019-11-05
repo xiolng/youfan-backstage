@@ -32,6 +32,8 @@
 </template>
 
 <script>
+  import { setLogin } from '@/api/login'
+
   export default {
     data () {
       return {
@@ -53,9 +55,13 @@
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.$Message.success('编辑成功!')
-            this.$refs[name].resetFields()
-            this.$router.push('/')
+            setLogin(this.formValidate).then(res => {
+              if (+res.data.code === 0) {
+                this.$Message.success('编辑成功!')
+                this.$refs[name].resetFields()
+                this.$router.push('/')
+              }
+            })
           } else {
             this.$Message.error('请输入完整信息!')
           }

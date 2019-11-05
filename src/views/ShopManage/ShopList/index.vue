@@ -3,7 +3,7 @@
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <Input size="default" search enter-button="搜索" placeholder="请输入商铺名。。。"/>
+        <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showAdd = !showAdd">新增</Button>
@@ -35,13 +35,8 @@
         </div>
       </Table>
     </div>
-    <!--分页-->
-    <Page
-      :total="100"
-      show-sizer
-      :current="4"
-      show-total
-    />
+    <!--分页配置-->
+    <PageM :total="total" :callback="setPage"/>
     <!--新增商铺-->
     <AddShop :callback="saveAdd" :show="showAdd"></AddShop>
     <!--删除商铺-->
@@ -63,7 +58,9 @@
 </template>
 
 <script>
-  import AddShop from '@/views/ShopManage/List/AddShop'
+  import AddShop from '@/views/ShopManage/ShopList/AddShop'
+  import SearchM from '@/components/SearchM'
+  import PageM from '@/components/PageM/PageM'
 
   export default {
     data () {
@@ -110,7 +107,10 @@
           }
         ],
         showAdd: false,
-        showDel: false
+        showDel: false,
+        total: 0,
+        pages: {},
+        searchName: {}
       }
     },
     methods: {
@@ -119,10 +119,18 @@
       },
       delShop () {
         this.showDel = false
+      },
+      setPage (data) {
+        this.pages = data
+      },
+      clickSearch (data) {
+        this.searchName = data
       }
     },
     components: {
-      AddShop
+      AddShop,
+      SearchM,
+      PageM
     }
   }
 </script>
@@ -133,6 +141,7 @@
 
     /deep/ .table
       width calc(100vw - 280px) !important
+      min-width 930px !important
 
     .icons
       margin-right 10px

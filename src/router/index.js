@@ -15,17 +15,26 @@ const routes = [
           {
             path: '',
             name: '用户管理',
-            component: () => import('@/views/SystemManage/UserManage')
+            component: () => import('@/views/SystemManage/UserManage'),
+            meta: {
+              searchKey: 'UserManage'
+            }
           },
           {
             path: 'role',
             name: '角色管理',
-            component: () => import('@/views/SystemManage/RoleManage')
+            component: () => import('@/views/SystemManage/RoleManage'),
+            meta: {
+              searchKey: 'RoleManage'
+            }
           },
           {
             path: 'menu',
             name: '菜单管理',
-            component: () => import('@/views/SystemManage/MenuManage')
+            component: () => import('@/views/SystemManage/MenuManage'),
+            meta: {
+              searchKey: 'MenuManage'
+            }
           },
         ]
       },
@@ -39,7 +48,10 @@ const routes = [
           {
             path: '',
             name: '卡券列表',
-            component: () => import('@/views/CardManage/List')
+            component: () => import('@/views/CardManage/CardList'),
+            meta: {
+              searchKey: 'CardList'
+            }
           },
         ]
       },
@@ -53,7 +65,10 @@ const routes = [
           {
             path: '',
             name: '会员列表',
-            component: () => import('@/views/MemberManage/List')
+            component: () => import('@/views/MemberManage/MemberList'),
+            meta: {
+              searchKey: 'MemberList'
+            }
           },
         ]
       },
@@ -67,7 +82,10 @@ const routes = [
           {
             path: '',
             name: '商铺列表',
-            component: () => import('@/views/ShopManage/List')
+            component: () => import('@/views/ShopManage/ShopList'),
+            meta: {
+              searchKey: 'ShopList'
+            }
           },
           {
             path: 'qr',
@@ -86,7 +104,10 @@ const routes = [
           {
             path: '',
             name: '优惠信息',
-            component: () => import('@/views/DiscountsManage/List')
+            component: () => import('@/views/DiscountsManage/DiscountsList'),
+            meta: {
+              searchKey: 'DiscountsList'
+            }
           },
         ]
       },
@@ -100,7 +121,10 @@ const routes = [
           {
             path: '',
             name: '流水',
-            component: () => import('@/views/PayManage/List')
+            component: () => import('@/views/PayManage/PayList'),
+            meta: {
+              searchKey: 'PayList'
+            }
           },
         ]
       },

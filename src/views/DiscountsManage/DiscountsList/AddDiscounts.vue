@@ -10,8 +10,8 @@
         <FormItem label="优惠名" prop="discountsName">
           <Input v-model="formValidate.discountsName" placeholder="请输入优惠名"/>
         </FormItem>
-        <FormItem label="y优惠信息" prop="discountsMessage">
-          <Input v-model="formValidate.discountsMessage" placeholder="请输入y优惠信息"/>
+        <FormItem label="优惠信息" prop="discountsMessage">
+          <Input v-model="formValidate.discountsMessage" placeholder="请输入优惠信息"/>
         </FormItem>
         <FormItem label="更新时间" prop="upDate">
           <Input v-model="formValidate.upDate" placeholder="请输入更新时间"/>

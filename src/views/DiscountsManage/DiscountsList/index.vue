@@ -1,17 +1,12 @@
 <template>
-  <div class="card-box">
-    <!--搜索，导入会员-->
+  <div class="user-box">
+    <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <Input size="default" search enter-button="搜索" placeholder="请输入会员名。。。"/>
+        <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
-        <Upload action="/">
-          <Button size="default" type="primary">
-            <Icon type="ios-cloud-upload-outline"></Icon>
-            导入会员
-          </Button>
-        </Upload>
+        <Button size="default" type="primary" @click="showAdd = !showAdd">新增</Button>
       </Col>
     </Row>
     <!--table列表-->
@@ -23,7 +18,6 @@
         size="default"
         max-height="400"
         class="table"
-        ref="table"
       >
         <!--操作-->
         <div slot="action">
@@ -41,19 +35,15 @@
         </div>
       </Table>
     </div>
-    <!--分页-->
-    <Page
-      :total="100"
-      show-sizer
-      :current="4"
-      show-total
-    />
-    <!--编辑会员-->
-    <EditMember :callback="saveAdd" :show="showAdd"></EditMember>
+    <!--分页配置-->
+    <PageM :total="total" :callback="setPage"/>
+    <!--新增优惠信息-->
+    <AddDiscounts :callback="saveAdd" :show="showAdd"></AddDiscounts>
+    <!--删除优惠信息-->
     <Modal
       v-model="showDel"
-      title="删除会员"
-      @on-ok="delCard"
+      title="删除优惠"
+      @on-ok="delUser"
     >
       <Row type="flex" justify="center" align="middle" :gutter="10">
         <Col>
@@ -68,23 +58,25 @@
 </template>
 
 <script>
-  import EditMember from '@/views/MemberManage/List/EditMember'
+  import AddDiscounts from '@/views/DiscountsManage/DiscountsList/AddDiscounts'
+  import SearchM from '@/components/SearchM'
+  import PageM from '@/components/PageM/PageM'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '会员名',
+            title: '优惠名',
             key: 'name'
           },
           {
-            title: '卡券',
-            key: 'coupon'
+            title: '优惠信息',
+            key: 'discountsMessage'
           },
           {
-            title: '次数',
-            key: 'count'
+            title: '更新时间',
+            key: 'editTime'
           },
           {
             title: '操作',
@@ -94,40 +86,51 @@
         ],
         data1: [
           {
-            name: 'member1',
-            coupon: '5',
-            count: '3'
+            name: 'John Brown',
+            discountsMessage: '满100减200',
+            editTime: '2016-10-03'
           },
           {
-            name: 'member2',
-            coupon: '15',
-            count: '10'
+            name: 'Jim Green',
+            discountsMessage: '满100减200',
+            editTime: '2016-10-03'
           },
           {
-            name: 'member3',
-            coupon: '25',
-            count: '20'
+            name: 'Joe Black',
+            discountsMessage: '满100减200',
+            editTime: '2016-10-03'
           },
           {
-            name: 'member4',
-            coupon: '35',
-            count: '16'
+            name: 'Jon Snow',
+            discountsMessage: '满100减200',
+            editTime: '2016-10-03'
           }
         ],
         showAdd: false,
-        showDel: false
+        showDel: false,
+        total: 0,
+        pages: {},
+        searchName: {}
       }
     },
     methods: {
       saveAdd () {
         this.showAdd = false
       },
-      delCard () {
+      delUser () {
         this.showDel = false
+      },
+      setPage (data) {
+        this.pages = data
+      },
+      clickSearch (data) {
+        this.searchName = data
       }
     },
     components: {
-      EditMember
+      AddDiscounts,
+      SearchM,
+      PageM
     }
   }
 </script>
@@ -138,6 +141,7 @@
 
     /deep/ .table
       width calc(100vw - 280px) !important
+      min-width 930px !important
 
     .icons
       margin-right 10px

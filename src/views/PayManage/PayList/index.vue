@@ -3,7 +3,7 @@
     <!--搜索-->
     <Row type="flex" justify="space-between">
       <Col>
-        <Input size="default" search enter-button="搜索" placeholder="请输入名称。。。"/>
+        <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
 
@@ -20,17 +20,14 @@
         class="table"
       />
     </div>
-    <!--分页-->
-    <Page
-      :total="100"
-      show-sizer
-      :current="4"
-      show-total
-    />
+    <!--分页配置-->
+    <PageM :total="total" :callback="setPage"/>
   </div>
 </template>
 
 <script>
+  import SearchM from '@/components/SearchM'
+  import PageM from '@/components/PageM/PageM'
 
   export default {
     data () {
@@ -79,10 +76,23 @@
             editTime: '2016-10-03'
           }
         ],
+        total: 0,
+        pages: {},
+        searchName: {}
       }
     },
-    methods: {},
-    components: {}
+    methods: {
+      clickSearch (data) {
+        this.searchName = data
+      },
+      setPage (data) {
+        this.pages = data
+      }
+    },
+    components: {
+      SearchM,
+      PageM
+    }
   }
 </script>
 
@@ -92,6 +102,7 @@
 
     /deep/ .table
       width calc(100vw - 280px) !important
+      min-width 930px !important
 
     .icons
       margin-right 10px

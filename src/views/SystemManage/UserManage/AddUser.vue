@@ -7,7 +7,7 @@
       <FormItem label="电话" prop="phone">
         <Input v-model="formValidate.phone" placeholder="请输入电话"/>
       </FormItem>
-      <FormItem label="角色">
+      <FormItem label="角色" prop="roleId">
         <Select v-model="formValidate.roleId">
           <Option :value="item.id" v-for="item in roleList" :key="item.id">{{item.roleName}}</Option>
         </Select>
@@ -67,7 +67,7 @@
           ],
           phone: [
             { required: true, message: '请输入手机号', trigger: 'blur' },
-            { validator: validatePhone, trigger: 'change' }
+            { validator: validatePhone, trigger: 'change blur' }
           ],
           roleId: [
             { required: true, message: '请选择角色', trigger: 'change' }

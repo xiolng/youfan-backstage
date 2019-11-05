@@ -39,6 +39,12 @@ module.exports = {
           '^/business': '/business'
         }
       },
+      '/api': {
+        target: 'http://192.168.1.171:8080',
+        pathRewrite: {
+          '^/api': '/api'
+        }
+      },
     }
   }
 }

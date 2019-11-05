@@ -61,93 +61,7 @@
     methods: {
       getList () {
         getMenuList().then(res => {
-          // this.treeList[0].children = treeMenu(res.data.data)
-          this.treeList[0].children = [
-            {
-              path: 'system',
-              title: '系统管理',
-              icon: 'md-settings',
-              redirect: { title: '用户管理' },
-              children: [
-                {
-                  path: '',
-                  title: '用户管理',
-                },
-                {
-                  path: 'role',
-                  title: '角色管理',
-                },
-                {
-                  path: 'menu',
-                  title: '菜单管理',
-                },
-              ]
-            },
-            {
-              path: 'card',
-              title: '卡券管理',
-              icon: 'md-card',
-              redirect: { title: '卡券列表' },
-              children: [
-                {
-                  path: '',
-                  title: '卡券列表',
-                },
-              ]
-            },
-            {
-              path: 'member',
-              title: '会员管理',
-              icon: 'md-contacts',
-              redirect: { title: '会员列表' },
-              children: [
-                {
-                  path: '',
-                  title: '会员列表',
-                },
-              ]
-            },
-            {
-              path: 'shop',
-              title: '商铺管理',
-              icon: 'ios-home',
-              redirect: { title: '商铺列表' },
-              children: [
-                {
-                  path: '',
-                  title: '商铺列表',
-                },
-                {
-                  path: 'qr',
-                  title: '收款二维码',
-                },
-              ]
-            },
-            {
-              path: 'discounts',
-              title: '优惠管理',
-              icon: 'md-pricetags',
-              redirect: { title: '优惠信息' },
-              children: [
-                {
-                  path: '',
-                  title: '优惠信息',
-                },
-              ]
-            },
-            {
-              path: 'pay',
-              title: '支付管理',
-              icon: 'logo-yen',
-              redirect: { title: '流水' },
-              children: [
-                {
-                  path: '',
-                  name: '流水',
-                },
-              ]
-            },
-          ]
+          this.treeList[0].children = treeMenu(res.data.data)
         })
       },
       // 添加菜单
@@ -160,8 +74,8 @@
         this.getList()
       },
       /**
-       * 删除角色
-       * @param data
+       * 删除角色弹窗
+       * @param data 获取删除id
        */
       removeRole (data) {
         this.removeRoleId = data.id
@@ -180,6 +94,7 @@
           }
         })
       },
+      // 取消关闭弹窗
       modalCancel () {
         this.showModal = false
         this.showAdd = false

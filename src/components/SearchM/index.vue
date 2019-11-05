@@ -26,33 +26,42 @@
 </template>
 
 <script>
+  import searchSelectList from '@/components/SearchM/searchSelectList'
+
   export default {
     props: {
-      getList: Function,
-      selectList: Array
+      getList: Function
     },
     data () {
       return {
         searchName: '',
-        selectKey: this.selectList[0].key
+        pageName: '',
+        selectKey: '',
+        selectList: ''
       }
+    },
+    created () {
+      this.pageName = this.$route.meta.searchKey
+      this.selectKey = searchSelectList[this.pageName][0].key
+      this.selectList = searchSelectList[this.pageName]
     },
     methods: {
       searchData () {
         let data = {}
         data[this.selectKey] = this.searchName
+        console.log('search', data)
         return data
       }
     },
     computed: {
       placeholder () {
         let list = 0
-        this.selectList.map((v, index) => {
+        searchSelectList[this.pageName].map((v, index) => {
           if (v.key === this.selectKey) {
             list = index
           }
         })
-        return this.selectList[list].placeholder
+        return `请输入${searchSelectList[this.pageName][list].name}搜索`
       }
     }
   }

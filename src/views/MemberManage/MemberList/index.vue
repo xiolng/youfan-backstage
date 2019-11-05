@@ -1,29 +1,17 @@
 <template>
   <div class="card-box">
-    <!--搜索，导入卡券-->
+    <!--搜索，导入会员-->
     <Row type="flex" justify="space-between">
       <Col>
-        <Input size="default" search enter-button="搜索" placeholder="请输入卡券名。。。"/>
+        <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
         <Upload action="/">
           <Button size="default" type="primary">
             <Icon type="ios-cloud-upload-outline"></Icon>
-            导入卡券
+            导入会员
           </Button>
         </Upload>
-        <div class="spin-box" v-if="progressNum">
-          <Spin fix>
-            <div class="progress-box">
-              <Progress
-                :percent="40"
-                status="active"
-                :stroke-width="20"
-                text-inside
-              ></Progress>
-            </div>
-          </Spin>
-        </div>
       </Col>
     </Row>
     <!--table列表-->
@@ -53,31 +41,13 @@
         </div>
       </Table>
     </div>
-    <!--分页-->
-    <Row type="flex" justify="space-between">
-      <Col>
-        <Page
-          :total="100"
-          show-sizer
-          :current="4"
-          show-total
-        />
-      </Col>
-      <!--导出卡券-->
-      <Col>
-        <Button type="warning" @click="exportsTable">
-          <Icon type="ios-download-outline"></Icon>
-          导出卡券
-        </Button>
-      </Col>
-    </Row>
-
-    <!--编辑卡券-->
-    <EditCard :callback="saveAdd" :show="showAdd"></EditCard>
-    <!--删除卡券-->
+    <!--分页配置-->
+    <PageM :total="total" :callback="setPage"/>
+    <!--编辑会员-->
+    <EditMember :callback="saveAdd" :show="showAdd"></EditMember>
     <Modal
       v-model="showDel"
-      title="删除卡券"
+      title="删除会员"
       @on-ok="delCard"
     >
       <Row type="flex" justify="center" align="middle" :gutter="10">
@@ -93,19 +63,21 @@
 </template>
 
 <script>
-  import EditCard from '@/views/CardManage/List/EditCard'
+  import EditMember from '@/views/MemberManage/MemberList/EditMember'
+  import SearchM from '@/components/SearchM'
+  import PageM from '@/components/PageM/PageM'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '卡券名',
+            title: '会员名',
             key: 'name'
           },
           {
-            title: '价格',
-            key: 'price'
+            title: '卡券',
+            key: 'coupon'
           },
           {
             title: '次数',
@@ -119,29 +91,31 @@
         ],
         data1: [
           {
-            name: '5元券',
-            price: '5',
+            name: 'member1',
+            coupon: '5',
             count: '3'
           },
           {
-            name: '15元券',
-            price: '15',
+            name: 'member2',
+            coupon: '15',
             count: '10'
           },
           {
-            name: '25元券',
-            price: '25',
+            name: 'member3',
+            coupon: '25',
             count: '20'
           },
           {
-            name: '35元券',
-            price: '35',
+            name: 'member4',
+            coupon: '35',
             count: '16'
           }
         ],
         showAdd: false,
         showDel: false,
-        progressNum: 0
+        total: 0,
+        pages: {},
+        searchName: {}
       }
     },
     methods: {
@@ -151,40 +125,29 @@
       delCard () {
         this.showDel = false
       },
-      exportsTable () {
-        this.$refs.table.exportCsv({
-          filename: '卡券列表'
-        })
+      setPage (data) {
+        this.pages = data
+      },
+      clickSearch (data) {
+        this.searchName = data
       }
     },
     components: {
-      EditCard
+      EditMember,
+      SearchM,
+      PageM
     }
   }
 </script>
 
 <style scoped lang="stylus">
-  .card-box
+  .table-box
     margin 20px 0
-
-    /*table展示*/
 
     /deep/ .table
       width calc(100vw - 280px) !important
+      min-width 930px !important
 
     .icons
       margin-right 10px
-
-    // 上传加载
-
-    .spin-box
-      position fixed
-      left 0
-      right 0
-      top 0
-      bottom 0
-      z-index 999
-
-      .progress-box
-        width 50vw
 </style>

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import LocationMap from '@/views/ShopManage/List/LocationMap'
+  import LocationMap from '@/views/ShopManage/ShopList/LocationMap'
   import { validPhone } from '@/utils'
 
   export default {

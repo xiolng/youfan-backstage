@@ -3,15 +3,7 @@
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <Input
-          v-model="searchName"
-          size="default"
-          search
-          enter-button="搜索"
-          placeholder="请输入角色名。。。"
-          @on-search="clickSearch"
-          @on-enter="clickSearch"
-        />
+        <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = !showModal,showAdd = !showAdd">新增</Button>
@@ -42,16 +34,8 @@
         </div>
       </Table>
     </div>
-    <!--分页-->
-    <Page
-      :total="total"
-      show-sizer
-      :current="current"
-      show-total
-      @on-change="setPage"
-      :page-size="limit"
-      @on-page-size-change="setPageSize"
-    />
+    <!--分页配置-->
+    <PageM :total="total" :callback="setPage"/>
 
     <Modal
       v-model="showModal"
@@ -80,6 +64,8 @@
 <script>
   import AddRole from '@/views/SystemManage/RoleManage/AddRole' // 新增角色
   import EditRole from '@/views/SystemManage/RoleManage/EditRole' // 编辑角色
+  import PageM from '@/components/PageM/PageM'
+  import SearchM from '@/components/SearchM'
   import { getRolePage, deleteRole } from '@/api/systemManage/role' // 接口
 
   export default {
@@ -135,10 +121,9 @@
         showDel: false, // 显示删除
         showModal: false, // 显示弹窗
         roleId: '', // 编辑某个id
-        current: 1, // 当前页
-        total: 1110, // 总条数
-        limit: 10, // 每页条数
-        searchName: '', // 搜索关键字
+        total: 0, // 总条数
+        pages: 10, // 分页配置
+        searchName: {}, // 搜索关键字
         removeRoleId: '' // 删除 id
       }
     },
@@ -148,15 +133,13 @@
     methods: {
       /**
        * 获取角色列表
-       * @param beginPage 当前页数
-       * @param limit 每页条数
+       * @param pages 当前页数
        * @param roleName 角色名
        */
-      getList (beginPage = 1, limit, roleName) {
+      getList (pages = { beginPage: 1, limit: 10 }, roleName) {
         getRolePage({
-          beginPage,
-          roleName,
-          limit
+          ...pages,
+          ...roleName
         }).then(res => {
           this.data1 = res.data.data
           this.total = res.data.total
@@ -164,24 +147,18 @@
       },
       /**
        * 跳转页
-       * @param num
+       * @param data
        */
-      setPage (num) {
-        this.getList(num, this.limit, this.searchName)
-        this.current = num
-      },
-      /**
-       * 每页条数
-       * @param num
-       */
-      setPageSize (num) {
-        this.getList(this.current, num, this.searchName)
+      setPage (data) {
+        this.pages = data
+        this.getList(this.pages, this.searchName)
       },
       /**
        * 搜索关键字
        */
-      clickSearch () {
-        this.getList(this.current, this.limit, this.searchName)
+      clickSearch (data) {
+        this.searchName = data
+        this.getList(this.pages, this.searchName)
       },
       /**
        * 编辑角色
@@ -235,7 +212,9 @@
     },
     components: {
       AddRole,
-      EditRole
+      EditRole,
+      SearchM,
+      PageM
     }
   }
 </script>
@@ -246,6 +225,7 @@
 
     /deep/ .table
       width calc(100vw - 280px) !important
+      min-width 930px !important
 
     .icons
       margin-right 10px
