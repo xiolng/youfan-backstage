@@ -19,7 +19,7 @@
         isFull: false,
       }
     },
-    mounted () {
+    beforeMount () {
       const vm = this
       window.onresize = function () {
         if (vm.getFullScreen()) {

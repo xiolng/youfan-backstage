@@ -73,7 +73,7 @@
         roleList: []
       }
     },
-    mounted () {
+    beforeMount () {
       // 获取用户详情
       getUserDetail({
         id: this.userId

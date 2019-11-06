@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-axios.interceptors.request.use(
+const Http = axios.create({
+  timeout: 10000,
+})
+Http.interceptors.request.use(
   config => {
     config.headers.Authorization = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzODg1ODE1ODBmZGY5M2RlZGQyY2NlNDIzYzJhNWNhMSIsImlhdCI6MTU3Mjg1MDcyMywiZXhwIjoxNTczNDU1NTIzfQ.rWQfoCamHlSLCi6PXl9LEjSnRVsnb5GXJQHSWqjmVCoPsTh5TTnf9xRZdDfJayeiViuZ9Pq0Kz5HGWOtBhcHGA`
     return config
@@ -9,7 +12,7 @@ axios.interceptors.request.use(
     return error
   })
 
-axios.interceptors.response.use(
+Http.interceptors.response.use(
   config => {
     return config
   },
@@ -17,4 +20,4 @@ axios.interceptors.response.use(
     return error
   })
 
-export default axios
+export default Http

@@ -34,7 +34,7 @@ module.exports = {
         }
       },
       '/business': {
-        target: 'http://192.168.1.171:8080',
+        target: 'http://192.168.1.171:8088',
         pathRewrite: {
           '^/business': '/business'
         }

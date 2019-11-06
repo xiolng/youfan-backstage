@@ -122,12 +122,15 @@
         showModal: false, // 显示弹窗
         roleId: '', // 编辑某个id
         total: 0, // 总条数
-        pages: 10, // 分页配置
+        pages: {
+          beginPage: 1,
+          limit: 10
+        }, // 分页配置
         searchName: {}, // 搜索关键字
         removeRoleId: '' // 删除 id
       }
     },
-    mounted () {
+    beforeMount () {
       this.getList()
     },
     methods: {
@@ -136,10 +139,10 @@
        * @param pages 当前页数
        * @param roleName 角色名
        */
-      getList (pages = { beginPage: 1, limit: 10 }, roleName) {
+      getList () {
         getRolePage({
-          ...pages,
-          ...roleName
+          ...this.pages,
+          ...this.roleName
         }).then(res => {
           this.data1 = res.data.data
           this.total = res.data.total

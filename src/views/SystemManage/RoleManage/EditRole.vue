@@ -51,7 +51,7 @@
         menuList: [], // 菜单列表
       }
     },
-    mounted () {
+    beforeMount () {
       this.getMenu()
       // 获取用户详情
       getRoleDetail({

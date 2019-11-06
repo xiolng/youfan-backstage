@@ -26,11 +26,11 @@
 </template>
 
 <script>
-  import { saveDiscounts } from '@/api/discountsManage/DiscountsApi'
+  import { editDiscountsDetail, getDiscountsDetail } from '@/api/discountsManage/DiscountsApi'
 
   export default {
     props: {
-      show: Boolean,
+      discountId: String,
       callback: Function
     },
     data () {
@@ -51,11 +51,27 @@
         }
       }
     },
+    beforeMount () {
+      this.getDetail()
+    },
     methods: {
+      getDetail () {
+        getDiscountsDetail({
+          id: this.discountId
+        }).then(res => {
+          const data = res.data.data
+          for (let i in this.formValidate) {
+            this.formValidate[i] = data[i]
+          }
+        })
+      },
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
-            saveDiscounts(this.formValidate).then(res => {
+            editDiscountsDetail({
+              id: this.discountId,
+              ...this.formValidate
+            }).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('编辑成功!')
                 this.callback()

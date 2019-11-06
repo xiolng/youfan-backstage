@@ -128,6 +128,23 @@ const routes = [
           },
         ]
       },
+      {
+        path: 'base',
+        name: '基础管理',
+        icon: 'md-apps',
+        component: () => import('@/views/BaseManage'),
+        redirect: { name: '卡券信息' },
+        children: [
+          {
+            path: '',
+            name: '卡券信息',
+            component: () => import('@/views/BaseManage/CardMessage'),
+            meta: {
+              searchKey: 'CardMessage'
+            }
+          },
+        ]
+      },
     ]
   },
   {

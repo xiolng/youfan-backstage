@@ -22,7 +22,7 @@
     data () {
       return {
         mapBox: '', // 地图盒子
-        lnglatValue: this.markerValue || '', // 坐标轴
+        lnglatValue: this.markerValue.lnglat ? this.markerValue : '', // 坐标轴
         mapScale: '', // 距离标记
         mapMarker: '' // 坐标标记
       }

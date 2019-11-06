@@ -131,24 +131,25 @@
         showModal: false, // 显示弹窗
         userId: '', // 编辑某个id
         total: 0, // 总条数
-        pages: {}, // 分页
+        pages: {
+          beginPage: 1,
+          limit: 10
+        }, // 分页
         searchName: {}, // 搜索关键字
         removeUserId: '' // 删除 id
       }
     },
-    mounted () {
+    beforeMount () {
       this.getList()
     },
     methods: {
       /**
        * 获取用户列表
-       * @param page {current,limit}
-       * @param username 用户名
        */
-      getList (page, username) {
+      getList () {
         getUserList({
-          ...page,
-          ...username,
+          ...this.page,
+          ...this.searchName,
         }).then(res => {
           this.data1 = res.data.data
           this.total = res.data.total
@@ -160,14 +161,14 @@
        */
       setPage (data) {
         this.pages = data
-        this.getList(this.pages, this.searchName)
+        this.getList()
       },
       /**
        * 搜索关键字
        */
       clickSearch (data) {
         this.searchName = data
-        this.getList(this.pages, this.searchName)
+        this.getList()
       },
       /**
        * 编辑用户

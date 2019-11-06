@@ -52,7 +52,7 @@ const searchSelectList = {
   // 优惠管理
   DiscountsList: [
     {
-      key: 'discountsName',
+      key: 'discountName',
       name: '优惠名'
     }
   ],
@@ -61,6 +61,13 @@ const searchSelectList = {
     {
       key: 'payName',
       name: '流水名'
+    }
+  ],
+  // 基础管理
+  CardMessage: [
+    {
+      key: 'name',
+      name: '卡券名'
     }
   ],
 }

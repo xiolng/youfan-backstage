@@ -1,17 +1,15 @@
 <template>
   <div class="card-box">
-    <!--搜索，导入会员-->
+    <!--搜索，导入卡券-->
     <Row type="flex" justify="space-between">
       <Col>
         <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
-        <Upload action="/">
-          <Button size="default" type="primary">
-            <Icon type="ios-cloud-upload-outline"></Icon>
-            导入会员
-          </Button>
-        </Upload>
+        <Button size="default" type="primary" @click="showModal = true, showAdd = true">
+          <Icon type="md-add"></Icon>
+          新建
+        </Button>
       </Col>
     </Row>
     <!--table列表-->
@@ -26,31 +24,41 @@
         ref="table"
       >
         <!--操作-->
-        <div slot="action">
+        <template slot-scope="{row}" slot="action">
           <Tooltip content="编辑" placement="top" transfer>
-            <div class="icons" @click="showAdd = !showAdd">
+            <div class="icons" @click="cardId = row.id, showModal = true, showEdit = !showEdit">
               <Icon type="md-create" size="16"></Icon>
             </div>
 
           </Tooltip>
           <Tooltip content="删除" placement="top" transfer>
-            <div @click="showDel = !showDel">
+            <div @click="cardId = row.id, showModal = true, showDel = !showDel">
               <Icon type="ios-trash" size="18"></Icon>
             </div>
           </Tooltip>
-        </div>
+        </template>
       </Table>
     </div>
-    <!--分页配置-->
-    <PageM :total="total" :callback="setPage"/>
-    <!--编辑会员-->
-    <EditMember :callback="saveAdd" :show="showAdd"></EditMember>
+    <!--分页-->
+    <Row type="flex" justify="space-between">
+      <Col>
+        <!--分页配置-->
+        <PageM :total="total" :callback="setPage"/>
+      </Col>
+    </Row>
+
     <Modal
-      v-model="showDel"
-      title="删除会员"
-      @on-ok="delCard"
+      v-model="showModal"
+      :title="`${showAdd ? '新增' : showEdit ? '编辑' : '删除'}卡券`"
+      :footer-hide="!showDel"
+      @on-cancel="closeModal"
+      @on-ok="showDel ? delCard() : ''"
     >
-      <Row type="flex" justify="center" align="middle" :gutter="10">
+      <!--编辑卡券-->
+      <AddCardMessage :callback="closeModal" v-if="showAdd"></AddCardMessage>
+      <EditCardMessage :card-id="cardId" :callback="closeModal" v-if="showEdit"></EditCardMessage>
+      <!--删除卡券-->
+      <Row type="flex" justify="center" align="middle" :gutter="10" v-if="showDel">
         <Col>
           <Icon type="md-alert" color="#f90" size="30"></Icon>
         </Col>
@@ -63,46 +71,33 @@
 </template>
 
 <script>
-  import EditMember from '@/views/MemberManage/MemberList/EditMember'
+  import AddCardMessage from '@/views/BaseManage/CardMessage/AddCardMessage'
+  import EditCardMessage from '@/views/BaseManage/CardMessage/EditCardMessage'
   import SearchM from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getMemberList } from '@/api/MemberApi'
+  import { getCardMessageList, deleteCardMessage } from '@/api/baseManage/CardMessageApi'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '手机号',
-            key: 'phone',
+            title: '卡券名',
+            key: 'name',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '会员名',
-            key: 'username',
+            title: '价格',
+            key: 'price',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '卡券次数',
-            key: 'coupon',
-            ellipsis: true,
-            minWidth: 100,
-            tooltip: true
-          },
-          {
-            title: '身份证',
-            key: 'identityCard',
-            ellipsis: true,
-            minWidth: 150,
-            tooltip: true
-          },
-          {
-            title: '性别',
-            key: 'sex',
+            title: '次数',
+            key: 'discountsNumber',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
@@ -115,15 +110,15 @@
             tooltip: true
           },
           {
-            title: '更新人',
-            key: 'updateBy',
+            title: '创建时间',
+            key: 'createTime',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '创建时间',
-            key: 'createTime',
+            title: '更新人',
+            key: 'updateBy',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
@@ -144,8 +139,11 @@
           }
         ],
         data1: [],
+        showModal: false,
         showAdd: false,
+        showEdit: false,
         showDel: false,
+        cardId: '',
         total: 0,
         pages: {
           beginPage: 1,
@@ -159,28 +157,49 @@
     },
     methods: {
       getList () {
-        getMemberList({
+        getCardMessageList({
           ...this.pages,
           ...this.searchName
         }).then(res => {
           this.data1 = res.data.data
+          this.total = res.data.total
         })
       },
       saveAdd () {
         this.showAdd = false
       },
       delCard () {
-        this.showDel = false
+        deleteCardMessage({ id: this.cardId }).then(res => {
+          if (+res.data.code === 0) {
+            this.$Message.success('删除成功')
+            this.closeModal()
+          }
+        })
       },
       setPage (data) {
         this.pages = data
+        this.getList()
+      },
+      closeModal () {
+        this.showModal = false
+        this.showAdd = false
+        this.showEdit = false
+        this.showDel = false
+        this.getList()
       },
       clickSearch (data) {
         this.searchName = data
+        this.getList()
+      },
+      exportsTable () {
+        this.$refs.table.exportCsv({
+          filename: '卡券列表'
+        })
       }
     },
     components: {
-      EditMember,
+      AddCardMessage,
+      EditCardMessage,
       SearchM,
       PageM
     }
@@ -188,13 +207,29 @@
 </script>
 
 <style scoped lang="stylus">
-  .table-box
-    margin 20px 0
+  .card-box
 
-    /deep/ .table
-      width calc(100vw - 280px) !important
-      min-width 930px !important
+    .table-box
+      margin 20px 0
+      /*table展示*/
 
-    .icons
-      margin-right 10px
+      /deep/ .table
+        width calc(100vw - 280px) !important
+        min-width 930px !important
+
+      .icons
+        margin-right 10px
+
+    // 上传加载
+
+    .spin-box
+      position fixed
+      left 0
+      right 0
+      top 0
+      bottom 0
+      z-index 999
+
+      .progress-box
+        width 50vw
 </style>

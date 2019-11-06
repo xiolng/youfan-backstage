@@ -45,7 +45,7 @@
         parentName: JSON.parse(localStorage.getItem('menuSub'))
       }
     },
-    mounted () {
+    beforeMount () {
       this.$store.dispatch('commitMenus')
     },
     methods: {

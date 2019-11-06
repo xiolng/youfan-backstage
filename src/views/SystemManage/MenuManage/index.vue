@@ -55,7 +55,7 @@
         renderContent: renderContent.bind(this) // 菜单列表 增删改 按钮
       }
     },
-    mounted () {
+    beforeMount () {
       this.getList()
     },
     methods: {

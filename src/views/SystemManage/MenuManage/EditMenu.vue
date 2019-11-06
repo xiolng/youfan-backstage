@@ -47,7 +47,7 @@
         }
       }
     },
-    mounted () {
+    beforeMount () {
       this.getMenuDetils()
     },
     methods: {

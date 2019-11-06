@@ -28,6 +28,7 @@
 <script>
   import SearchM from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
+  import { getPayList } from '@/api/payManage/PayList'
 
   export default {
     data () {
@@ -35,53 +36,61 @@
         columns1: [
           {
             title: '商铺名',
-            key: 'name'
+            key: 'name',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           },
           {
-            title: '优惠信息',
-            key: 'discountsMessage'
+            title: '会员名',
+            key: 'discountsMessage',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           },
           {
-            title: '卡券次数',
-            key: 'count'
+            title: '卡券名',
+            key: 'count',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           },
           {
-            title: '更新时间',
-            key: 'editTime'
+            title: '价格',
+            key: 'payMoney',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '日期',
+            key: 'createTime',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           }
         ],
-        data1: [
-          {
-            name: 'John Brown',
-            discountsMessage: '满100减200',
-            count: '3',
-            editTime: '2016-10-03'
-          },
-          {
-            name: 'Jim Green',
-            discountsMessage: '满100减200',
-            count: '13',
-            editTime: '2016-10-03'
-          },
-          {
-            name: 'Joe Black',
-            discountsMessage: '满100减200',
-            count: '23',
-            editTime: '2016-10-03'
-          },
-          {
-            name: 'Jon Snow',
-            discountsMessage: '满100减200',
-            count: '33',
-            editTime: '2016-10-03'
-          }
-        ],
+        data1: [],
         total: 0,
-        pages: {},
+        pages: {
+          beginPage: 1,
+          limit: 10
+        },
         searchName: {}
       }
     },
+    beforeMount () {
+      this.getList()
+    },
     methods: {
+      getList () {
+        getPayList({
+          ...this.pages,
+          ...this.searchName
+        }).then(res => {
+          this.data1 = res.data.data
+        })
+      },
       clickSearch (data) {
         this.searchName = data
       },

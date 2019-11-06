@@ -6,7 +6,7 @@
         <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
-        <Button size="default" type="primary" @click="showAdd = !showAdd">新增</Button>
+        <Button size="default" type="primary" @click="showModal = true, showAdd = !showAdd">新增</Button>
       </Col>
     </Row>
     <!--table列表-->
@@ -20,32 +20,35 @@
         class="table"
       >
         <!--操作-->
-        <div slot="action">
-          <Tooltip content="编辑" placement="top">
-            <div class="icons" @click="showAdd = !showAdd">
+        <template slot-scope="{row}" slot="action">
+          <Tooltip content="编辑" placement="top" transfer>
+            <div class="icons" @click="discountId = row.id, showModal = true, showEdit = !showEdit">
               <Icon type="md-create" size="16"></Icon>
             </div>
 
           </Tooltip>
-          <Tooltip content="删除" placement="top">
-            <div @click="showDel = !showDel">
+          <Tooltip content="删除" placement="top" transfer>
+            <div @click="discountId = row.id, showModal = true, showDel = !showDel">
               <Icon type="ios-trash" size="18"></Icon>
             </div>
           </Tooltip>
-        </div>
+        </template>
       </Table>
     </div>
     <!--分页配置-->
     <PageM :total="total" :callback="setPage"/>
-    <!--新增优惠信息-->
-    <AddDiscounts :callback="saveAdd" :show="showAdd"></AddDiscounts>
-    <!--删除优惠信息-->
     <Modal
-      v-model="showDel"
-      title="删除优惠"
-      @on-ok="delUser"
+      v-model="showModal"
+      :title="`${showAdd ? '新增' : showEdit ? '编辑' : '删除'}优惠信息`"
+      :footer-hide="!showDel"
+      @on-cancel="closeModal"
+      @on-ok="showDel ? delDiscounts() : ''"
     >
-      <Row type="flex" justify="center" align="middle" :gutter="10">
+      <!--新增优惠信息-->
+      <AddDiscounts :callback="closeModal" v-if="showAdd"></AddDiscounts>
+      <EditDiscounts :callback="closeModal" v-if="showEdit" :discount-id="discountId"></EditDiscounts>
+      <!--删除优惠信息-->
+      <Row type="flex" justify="center" align="middle" :gutter="10" v-if="showDel">
         <Col>
           <Icon type="md-alert" color="#f90" size="30"></Icon>
         </Col>
@@ -61,6 +64,8 @@
   import AddDiscounts from '@/views/DiscountsManage/DiscountsList/AddDiscounts'
   import SearchM from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
+  import { getDiscountsList, deleteDiscounts } from '@/api/discountsManage/DiscountsApi'
+  import EditDiscounts from '@/views/DiscountsManage/DiscountsList/EditDiscounts'
 
   export default {
     data () {
@@ -68,66 +73,125 @@
         columns1: [
           {
             title: '优惠名',
-            key: 'name'
+            key: 'discountName',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           },
           {
             title: '优惠信息',
-            key: 'discountsMessage'
+            key: 'discountDetails',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '规则',
+            key: 'discountRule',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '备注',
+            key: 'remarks',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '创建人',
+            key: 'createBy',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '创建时间',
+            key: 'createTime',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '更新人',
+            key: 'updateBy',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           },
           {
             title: '更新时间',
-            key: 'editTime'
+            key: 'updataTime',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
           },
           {
             title: '操作',
             key: 'action',
-            slot: 'action'
+            slot: 'action',
+            fixed: 'right',
+            minWidth: 100
           }
         ],
-        data1: [
-          {
-            name: 'John Brown',
-            discountsMessage: '满100减200',
-            editTime: '2016-10-03'
-          },
-          {
-            name: 'Jim Green',
-            discountsMessage: '满100减200',
-            editTime: '2016-10-03'
-          },
-          {
-            name: 'Joe Black',
-            discountsMessage: '满100减200',
-            editTime: '2016-10-03'
-          },
-          {
-            name: 'Jon Snow',
-            discountsMessage: '满100减200',
-            editTime: '2016-10-03'
-          }
-        ],
+        data1: [],
+        showModal: false,
         showAdd: false,
+        showEdit: false,
         showDel: false,
         total: 0,
-        pages: {},
-        searchName: {}
+        pages: {
+          beginPage: 1,
+          limit: 10
+        },
+        searchName: {},
+        discountId: ''
       }
     },
+    beforeMount () {
+      this.getList()
+    },
     methods: {
+      getList () {
+        getDiscountsList({
+          ...this.pages,
+          ...this.searchName
+        }).then(res => {
+          this.data1 = res.data.data
+          this.total = res.data.total
+        })
+      },
       saveAdd () {
         this.showAdd = false
       },
-      delUser () {
+      delDiscounts () {
+        deleteDiscounts({
+          id: this.discountId
+        }).then(res => {
+          if (+res.data.code === 0) {
+            this.$Message.success('删除成功')
+            this.closeModal()
+          }
+        })
+      },
+      closeModal () {
+        this.showModal = false
+        this.showAdd = false
+        this.showEdit = false
         this.showDel = false
+        this.getList()
       },
       setPage (data) {
         this.pages = data
       },
       clickSearch (data) {
         this.searchName = data
+        this.getList()
       }
     },
     components: {
+      EditDiscounts,
       AddDiscounts,
       SearchM,
       PageM

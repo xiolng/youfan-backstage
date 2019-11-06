@@ -8,16 +8,32 @@
         <Input v-model="formValidate.phone" placeholder="请输入联系电话"/>
       </FormItem>
       <FormItem label="优惠信息">
-        <Select v-model="formValidate.discountId" multiple filterable placeholder="请输入名称搜索或者选择">
-          <Option v-for="item in discountList" :key="item.id" :value="item.id">{{item.discountName}}</Option>
+        <Select
+          v-model="formValidate.discountId"
+          multiple
+          filterable
+          placeholder="请输入名称搜索或者选择"
+        >
+          <Option
+            v-for="item in discountList"
+            :key="item.id"
+            :value="item.id"
+          >{{item.discountName}}
+          </Option>
         </Select>
       </FormItem>
       <FormItem label="地址" prop="addressDetails">
         <Input v-model="formValidate.addressDetails" placeholder="请输入地址"/>
       </FormItem>
       <FormItem label="营业时间">
-        <TimePicker @on-change="changeTime" format="HH:mm" type="timerange" placement="bottom-end"
-                    placeholder="请输入营业时间"></TimePicker>
+        <TimePicker
+          :value="businessHoursValue"
+          @on-change="changeTime"
+          format="HH:mm" type="timerange"
+          placement="bottom-end"
+          placeholder="请输入营业时间"
+          :editable="false"
+        ></TimePicker>
       </FormItem>
       <FormItem label="定位">
         <Button
@@ -37,21 +53,31 @@
         <Button type="primary" @click="modalOk">确定</Button>
       </Col>
     </Row>
-    <!--定位-->
+    <!--定位--弹窗-->
     <Modal v-model="showMap" title="位置选择" footer-hide>
-      <LocationMap v-if="showMap" :callback="setMaps" :marker-value="locationData"></LocationMap>
+      <LocationMap
+        v-if="showMap"
+        :marker-value="{
+          lnglat:{
+            lng: formValidate.longitude,
+            lat:formValidate.latitude
+          }
+        }"
+        :callback="setMaps"
+      ></LocationMap>
     </Modal>
   </div>
 </template>
 
 <script>
-  import LocationMap from '@/views/ShopManage/ShopList/LocationMap'
-  import { saveShop } from '@/api/ShopApi'
-  import { getAllDiscounts } from '@/api/discountsManage/DiscountsApi'
+  import LocationMap from '@/views/ShopManage/ShopList/LocationMap' // 定位弹窗
+  import { editShopDetail, getShopDetail } from '@/api/ShopApi'
+  import { getAllDiscounts } from '@/api/discountsManage/DiscountsApi' // 优惠信息
   import { validatePhone } from '@/utils'
 
   export default {
     props: {
+      shopId: String,
       callback: Function
     },
     data () {
@@ -80,31 +106,43 @@
             { required: true, message: '请输入地址', trigger: 'blur' }
           ],
         },
-        // 显示定位弹窗
+        // 地图弹窗
         showMap: false,
         // 营业时间
         businessHours: {
           beginTime: '',
           endTime: ''
         },
-        // 优惠信息
+        // 营业时间选择
+        businessHoursValue: [],
+        // 优惠列表
         discountList: [],
-        // 定位数据
-        locationData: {}
       }
     },
     beforeMount () {
+      this.getDetail()
       this.getList()
     },
     methods: {
-      // 获取优惠信息
+      // 优惠信息
       getList () {
         getAllDiscounts().then(res => {
           this.discountList = res.data.data
         })
       },
+      // 商铺详情
+      getDetail () {
+        getShopDetail({ id: this.shopId }).then(res => {
+          const data = res.data.data
+          for (let i in this.formValidate) {
+            this.formValidate[i] = data[i]
+            this.businessHours[i] = data[i]
+          }
+          this.businessHoursValue = [data.beginTime, data.endTime]
+        })
+      },
       // 保存修改
-      modalOk () {
+      modalOk: function () {
         if (!this.formValidate.longitude) {
           this.$Message.error('请选择定位')
           return false
@@ -114,7 +152,10 @@
             for (let i in this.businessHours) {
               this.formValidate[i] = this.businessHours[i]
             }
-            saveShop(this.formValidate).then(res => {
+            editShopDetail({
+              id: this.shopId,
+              ...this.formValidate
+            }).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('编辑成功!')
                 this.callback()
@@ -127,6 +168,7 @@
       },
       // 选择营业时间
       changeTime (data) {
+        this.businessHoursValue = data
         this.businessHours.beginTime = data[0]
         this.businessHours.endTime = data[1]
       },
@@ -134,12 +176,11 @@
         this.$refs['formValidate'].resetFields()
         this.callback()
       },
-      // 设置定位
+      // 设置地图
       setMaps (data) {
         if (data) {
           this.formValidate.latitude = data.lnglat.lat
           this.formValidate.longitude = data.lnglat.lng
-          this.locationData = data
         }
         this.showMap = false
       }

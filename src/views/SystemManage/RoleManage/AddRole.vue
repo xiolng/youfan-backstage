@@ -55,7 +55,7 @@
         treeMenu
       }
     },
-    mounted () {
+    beforeMount () {
       this.getMenu()
     },
     methods: {

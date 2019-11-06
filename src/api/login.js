@@ -1,3 +1,3 @@
-import axios from './index'
+import Http from './Http'
 
-export const setLogin = data => axios.post('/api/auth/signin', data)
+export const setLogin = data => Http.post('/api/auth/signin', data)

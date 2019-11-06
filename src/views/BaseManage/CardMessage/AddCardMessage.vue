@@ -1,17 +1,14 @@
 <template>
   <div class="add-user">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-      <FormItem label="优惠名" prop="discountName">
-        <Input v-model="formValidate.discountName" placeholder="请输入优惠名"/>
+      <FormItem label="卡券名" prop="name">
+        <Input v-model="formValidate.name" placeholder="请输入卡券名"/>
       </FormItem>
-      <FormItem label="优惠信息" prop="discountDetails">
-        <Input v-model="formValidate.discountDetails" placeholder="请输入优惠信息"/>
+      <FormItem label="价格" prop="price">
+        <Input v-model="formValidate.price" placeholder="请输入价格"/>
       </FormItem>
-      <FormItem label="优惠规则">
-        <Input v-model="formValidate.discountRule" placeholder="请输入优惠规则"/>
-      </FormItem>
-      <FormItem label="优惠备注">
-        <Input v-model="formValidate.remarks" placeholder="请输入优惠备注"/>
+      <FormItem label="次数" prop="discountsNumber">
+        <Input v-model="formValidate.discountsNumber" placeholder="请输入次数"/>
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">
@@ -26,7 +23,7 @@
 </template>
 
 <script>
-  import { saveDiscounts } from '@/api/discountsManage/DiscountsApi'
+  import { saveCardMessage } from '@/api/baseManage/CardMessageApi'
 
   export default {
     props: {
@@ -36,18 +33,20 @@
     data () {
       return {
         formValidate: {
-          discountName: '',
-          discountDetails: '',
-          discountRule: '',
-          remarks: '',
+          name: '',
+          price: '',
+          discountsNumber: '',
         },
         ruleValidate: {
-          discountName: [
-            { required: true, message: '请输入优惠名', trigger: 'blur' }
+          name: [
+            { required: true, message: '请输入卡券名', trigger: 'blur' }
           ],
-          discountDetails: [
-            { required: true, message: '请输入优惠信息', trigger: 'change' }
-          ]
+          price: [
+            { required: true, message: '请输入价格', trigger: 'blur' }
+          ],
+          discountsNumber: [
+            { required: true, message: '请输入次数', trigger: 'blur' }
+          ],
         }
       }
     },
@@ -55,7 +54,7 @@
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
-            saveDiscounts(this.formValidate).then(res => {
+            saveCardMessage(this.formValidate).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('编辑成功!')
                 this.callback()

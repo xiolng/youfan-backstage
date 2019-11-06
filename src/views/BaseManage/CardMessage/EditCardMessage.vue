@@ -1,17 +1,14 @@
 <template>
   <div class="add-user">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-      <FormItem label="上级菜单">
-        <Input :value="menuData.data.title" disabled/>
+      <FormItem label="卡券名" prop="name">
+        <Input v-model="formValidate.name" placeholder="请输入卡券名"/>
       </FormItem>
-      <FormItem label="地址" prop="path">
-        <Input v-model="formValidate.path" placeholder="请输入地址名"/>
+      <FormItem label="价格" prop="price">
+        <Input v-model="formValidate.price" placeholder="请输入价格"/>
       </FormItem>
-      <FormItem label="菜单名" prop="title">
-        <Input v-model="formValidate.title" placeholder="请输入菜单名"/>
-      </FormItem>
-      <FormItem label="icon" prop="icon">
-        <Input v-model="formValidate.icon" placeholder="请输入icon名"/>
+      <FormItem label="次数" prop="discountsNumber">
+        <Input v-model="formValidate.discountsNumber" placeholder="请输入次数"/>
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">
@@ -26,42 +23,54 @@
 </template>
 
 <script>
-  import { saveMenu } from '@/api/systemManage/menu'
+  import { getCardMessageDetail, editCardMessageDetail } from '@/api/baseManage/CardMessageApi'
 
   export default {
     props: {
-      callback: Function,
-      menuData: Object
+      cardId: String,
+      callback: Function
     },
     data () {
       return {
         formValidate: {
-          title: '',
-          icon: '',
-          path: ''
+          name: '',
+          price: '',
+          discountsNumber: '',
         },
         ruleValidate: {
-          title: [
-            { required: true, message: '请输入角色名', trigger: 'blur' }
+          name: [
+            { required: true, message: '请输入卡券名', trigger: 'blur' }
+          ],
+          price: [
+            { required: true, message: '请输入价格', trigger: 'blur' }
+          ],
+          discountsNumber: [
+            { required: true, message: '请输入次数', trigger: 'blur' }
           ],
         }
       }
     },
     beforeMount () {
-      if (this.activeData && this.activeData.title) this.formValidate = this.activeData
+      this.getDetail()
     },
     methods: {
+      getDetail () {
+        getCardMessageDetail({ id: this.cardId }).then(res => {
+          const data = res.data.data
+          for (let i in this.formValidate) {
+            this.formValidate[i] = data[i]
+          }
+        })
+      },
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
-            saveMenu({
-              parentId: this.menuData.data.id,
+            editCardMessageDetail({
+              id: this.cardId,
               ...this.formValidate
             }).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('编辑成功!')
-                this.$store.dispatch('commitMenus')
-                this.$refs['formValidate'].resetFields()
                 this.callback()
               }
             })

@@ -76,7 +76,7 @@
         roleList: [] // 角色列表
       }
     },
-    mounted () {
+    beforeMount () {
       this.getRole()
     },
     methods: {

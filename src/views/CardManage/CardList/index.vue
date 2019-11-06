@@ -6,24 +6,10 @@
         <SearchM @get-list="clickSearch"/>
       </Col>
       <Col>
-        <Upload action="/">
-          <Button size="default" type="primary">
-            <Icon type="ios-cloud-upload-outline"></Icon>
-            导入卡券
-          </Button>
-        </Upload>
-        <div class="spin-box" v-if="progressNum">
-          <Spin fix>
-            <div class="progress-box">
-              <Progress
-                :percent="40"
-                status="active"
-                :stroke-width="20"
-                text-inside
-              ></Progress>
-            </div>
-          </Spin>
-        </div>
+        <Button size="default" type="primary" @click="showModal = true, showAdd = true">
+          <Icon type="md-nuclear"></Icon>
+          生成卡券
+        </Button>
       </Col>
     </Row>
     <!--table列表-->
@@ -37,20 +23,6 @@
         class="table"
         ref="table"
       >
-        <!--操作-->
-        <div slot="action">
-          <Tooltip content="编辑" placement="top">
-            <div class="icons" @click="showAdd = !showAdd">
-              <Icon type="md-create" size="16"></Icon>
-            </div>
-
-          </Tooltip>
-          <Tooltip content="删除" placement="top">
-            <div @click="showDel = !showDel">
-              <Icon type="ios-trash" size="18"></Icon>
-            </div>
-          </Tooltip>
-        </div>
       </Table>
     </div>
     <!--分页-->
@@ -61,37 +33,33 @@
       </Col>
       <!--导出卡券-->
       <Col>
-        <Button type="warning" @click="exportsTable">
+        <Button type="warning" @click="showModal = true, showExport = true">
           <Icon type="ios-download-outline"></Icon>
           导出卡券
         </Button>
       </Col>
     </Row>
 
-    <!--编辑卡券-->
-    <EditCard :callback="saveAdd" :show="showAdd"></EditCard>
-    <!--删除卡券-->
     <Modal
-      v-model="showDel"
-      title="删除卡券"
-      @on-ok="delCard"
+      v-model="showModal"
+      :title="`生成卡券`"
+      footer-hide
+      @on-cancel="closeModal"
     >
-      <Row type="flex" justify="center" align="middle" :gutter="10">
-        <Col>
-          <Icon type="md-alert" color="#f90" size="30"></Icon>
-        </Col>
-        <Col>
-          <span>确定删除吗 ？</span>
-        </Col>
-      </Row>
+      <!--编辑卡券-->
+      <AddCard :callback="closeModal" v-if="showAdd"></AddCard>
+      <!--导出-->
+      <ExportCard :callback="closeModal" v-if="showExport"></ExportCard>
     </Modal>
   </div>
 </template>
 
 <script>
-  import EditCard from '@/views/CardManage/CardList/EditCard'
+  import AddCard from '@/views/CardManage/CardList/AddCard' // 分页
+  import ExportCard from '@/views/CardManage/CardList/ExportCard'
   import SearchM from '@/components/SearchC/SearchC' // 搜索框
-  import PageM from '@/components/PageC/PageC' // 分页
+  import PageM from '@/components/PageC/PageC'
+  import { getCardList } from '@/api/CardManageApi'
 
   export default {
     data () {
@@ -99,6 +67,10 @@
         columns1: [
           {
             title: '卡券名',
+            key: 'basicsName'
+          },
+          {
+            title: '卡券号',
             key: 'name'
           },
           {
@@ -108,52 +80,40 @@
           {
             title: '次数',
             key: 'count'
-          },
-          {
-            title: '操作',
-            key: 'action',
-            slot: 'action'
           }
         ],
-        data1: [
-          {
-            name: '5元券',
-            price: '5',
-            count: '3'
-          },
-          {
-            name: '15元券',
-            price: '15',
-            count: '10'
-          },
-          {
-            name: '25元券',
-            price: '25',
-            count: '20'
-          },
-          {
-            name: '35元券',
-            price: '35',
-            count: '16'
-          }
-        ],
+        data1: [],
+        showModal: false,
         showAdd: false,
-        showDel: false,
-        progressNum: 0,
+        showExport: false,
         total: 0,
-        pages: {},
+        pages: {
+          beginPage: 1,
+          limit: 10
+        },
         searchName: {}
       }
     },
+    beforeMount () {
+      this.getList()
+    },
     methods: {
-      saveAdd () {
-        this.showAdd = false
-      },
-      delCard () {
-        this.showDel = false
+      getList () {
+        getCardList({
+          ...this.pages,
+          ...this.searchName
+        }).then(res => {
+          this.data1 = res.data.data
+        })
       },
       setPage (data) {
         this.pages = data
+      },
+      closeModal () {
+        this.showModal = false
+        this.showAdd = false
+        this.showExport = false
+        this.getList()
       },
       clickSearch (data) {
         this.searchName = data
@@ -165,7 +125,8 @@
       }
     },
     components: {
-      EditCard,
+      AddCard,
+      ExportCard,
       SearchM,
       PageM
     }

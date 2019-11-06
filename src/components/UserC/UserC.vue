@@ -19,7 +19,7 @@
         iconBg: ''
       }
     },
-    mounted () {
+    beforeMount () {
       this.setBg()
     },
     methods: {
