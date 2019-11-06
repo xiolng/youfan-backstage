@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import searchSelectList from '@/components/SearchM/searchSelectList'
+  import searchSelectList from '@/components/SearchC/searchSelectList'
 
   export default {
     props: {

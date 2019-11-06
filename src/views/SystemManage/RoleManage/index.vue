@@ -64,8 +64,8 @@
 <script>
   import AddRole from '@/views/SystemManage/RoleManage/AddRole' // 新增角色
   import EditRole from '@/views/SystemManage/RoleManage/EditRole' // 编辑角色
-  import PageM from '@/components/PageM/PageM'
-  import SearchM from '@/components/SearchM'
+  import PageM from '@/components/PageC/PageC' // 分页
+  import SearchM from '@/components/SearchC/SearchC' // 搜索框
   import { getRolePage, deleteRole } from '@/api/systemManage/role' // 接口
 
   export default {

@@ -33,11 +33,11 @@
               <Row type="flex" justify="end" :gutter="20">
                 <Col>
                   <!--全屏-->
-                  <FullScreen/>
+                  <FullScreenM/>
                 </Col>
                 <Col>
                   <!--用户-->
-                  <Users/>
+                  <UserC/>
                 </Col>
               </Row>
             </Col>
@@ -51,10 +51,10 @@
   </div>
 </template>
 <script>
-  import Menus from '@/components/Menus'
-  import Breadcrumbs from '@/components/Breadcrumbs'
-  import FullScreen from '@/components/FullScreen'
-  import Users from '@/components/Users'
+  import Menus from '@/components/MenuC/MenuC'
+  import Breadcrumbs from '@/components/BreadcrumbC/BreadcrumbC'
+  import FullScreenM from '@/components/FullScreenC/FullScreenC'
+  import UserC from '@/components/UserC/UserC'
 
   export default {
     data () {
@@ -80,8 +80,8 @@
     components: {
       Menus,
       Breadcrumbs,
-      FullScreen,
-      Users
+      FullScreenM,
+      UserC
     }
   }
 </script>

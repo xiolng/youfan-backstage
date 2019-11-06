@@ -65,8 +65,8 @@
 <script>
   import AddUser from '@/views/SystemManage/UserManage/AddUser' // 新增用户
   import EditUser from '@/views/SystemManage/UserManage/EditUser' // 编辑用户
-  import SearchM from '@/components/SearchM'
-  import PageM from '@/components/PageM/PageM'
+  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import PageM from '@/components/PageC/PageC' // 分页
   import { getUserList, deleteUser } from '@/api/systemManage/user' // 接口
 
   export default {

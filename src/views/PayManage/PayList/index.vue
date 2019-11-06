@@ -26,8 +26,8 @@
 </template>
 
 <script>
-  import SearchM from '@/components/SearchM'
-  import PageM from '@/components/PageM/PageM'
+  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import PageM from '@/components/PageC/PageC' // 分页
 
   export default {
     data () {

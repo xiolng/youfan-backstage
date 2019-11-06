@@ -1,6 +1,6 @@
 <template>
   <div class="screen-box">
-    <Tooltip :content="isFull ? '退出全屏' : '全屏'" placement="bottom" v-if="showFullScreenBtn">
+    <Tooltip :content="isFull ? '退出全屏' : '全屏'" placement="bottom" v-if="showFullScreenBtn" @keyup.27="handleFullscreen">
       <Icon @click.native="handleFullscreen" :type="isFull ? 'md-contract' : 'md-expand'" :size="23"></Icon>
     </Tooltip>
   </div>
@@ -16,14 +16,22 @@
     },
     data () {
       return {
-        isFull: false
+        isFull: false,
+      }
+    },
+    mounted () {
+      const vm = this
+      window.onresize = function () {
+        if (vm.getFullScreen()) {
+          vm.$set(vm, 'isFull', false)
+          return false
+        }
+        vm.$set(vm, 'isFull', true)
       }
     },
     methods: {
       handleFullscreen () {
-        if (!document.fullscreenElement &&
-          !document.mozFullScreenElement && !document.webkitFullscreenElement) {
-          this.isFull = true
+        if (this.getFullScreen()) {
           if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen()
           } else if (document.documentElement.mozRequestFullScreen) {
@@ -32,7 +40,6 @@
             document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
           }
         } else {
-          this.isFull = false
           if (document.cancelFullScreen) {
             document.cancelFullScreen()
           } else if (document.mozCancelFullScreen) {
@@ -41,6 +48,9 @@
             document.webkitCancelFullScreen()
           }
         }
+      },
+      getFullScreen () {
+        return (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)
       }
     }
   }
