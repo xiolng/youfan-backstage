@@ -117,7 +117,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         |   |   |-- index.vue
         |   |-- PageM
         |   |   |-- PageM.vue
-        |   |-- SearchM
+        |   |-- SearchC
         |   |   |-- index.vue
         |   |   |-- searchSelectList.js
         |   |-- Users

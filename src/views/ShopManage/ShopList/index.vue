@@ -3,7 +3,7 @@
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = true, showAdd = true">新增</Button>
@@ -63,9 +63,9 @@
 <script>
   import AddShop from '@/views/ShopManage/ShopList/AddShop'
   import EditShop from '@/views/ShopManage/ShopList/EditShop'
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getShopList, deleteShop } from '@/api/ShopApi'
+  import { getShopListAll, deleteShop } from '@/api/ShopApi'
 
   export default {
     data () {
@@ -182,7 +182,7 @@
     methods: {
       // 获取列表
       getList () {
-        getShopList({
+        getShopListAll({
           ...this.pages,
           ...this.searchName
         }).then(res => {
@@ -221,7 +221,7 @@
     components: {
       AddShop,
       EditShop,
-      SearchM,
+      SearchC,
       PageM
     }
   }

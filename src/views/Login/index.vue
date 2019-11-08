@@ -8,8 +8,8 @@
       </div>
       <div class="login-content">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-          <FormItem label="用户名" prop="userName">
-            <Input v-model="formValidate.userName" placeholder="请输入用户名">
+          <FormItem label="用户名" prop="username">
+            <Input v-model="formValidate.username" placeholder="请输入用户名">
               <Icon type="ios-person-outline" slot="prepend" size="18"></Icon>
             </Input>
           </FormItem>
@@ -38,11 +38,11 @@
     data () {
       return {
         formValidate: {
-          userName: '',
+          username: '',
           password: '',
         },
         ruleValidate: {
-          userName: [
+          username: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
           password: [

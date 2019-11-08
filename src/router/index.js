@@ -53,6 +53,14 @@ const routes = [
               searchKey: 'CardList'
             }
           },
+          {
+            path: 'cardSearch',
+            name: '卡券码状态',
+            component: () => import('@/views/CardManage/CardSearch'),
+            meta: {
+              searchKey: 'CardSearch'
+            }
+          },
         ]
       },
       {

@@ -65,7 +65,8 @@
               id: this.formValidate.id,
               parentId: this.formValidate.parentId,
               icon: this.formValidate.icon,
-              path: this.formValidate.path
+              path: this.formValidate.path,
+              title: this.formValidate.title
             }).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('编辑成功!')

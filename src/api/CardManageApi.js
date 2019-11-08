@@ -1,5 +1,12 @@
 import Http from './Http'
 
-export const getCardList = (data) => Http.post('/business/cardVolume/page', data) // 列表
-export const saveCard = data => Http.post('/business/cardVolume/save', data) // 新建
-export const cardExport = params => Http.get('/business/excelOperation/exportCardVolumeInfo', { params })
+export const getCardList = () => Http.get('/business/cardVolume/selectCardVolumeSum') // 列表
+export const createCard = data => Http.post('/business/cardVolume/createCardVolume', data) // 新建
+export const cardExport = data => Http({
+  url: '/business/excelOperation/exportCardVolumeInfo',
+  data,
+  method: 'post',
+  responseType: 'blob'
+})
+// 卡券码状态
+export const getCardStatus = params => Http.get('/business/cardVolume/getBySerialNumber', { params })

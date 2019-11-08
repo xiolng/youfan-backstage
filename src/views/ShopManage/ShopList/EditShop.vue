@@ -22,8 +22,22 @@
           </Option>
         </Select>
       </FormItem>
+      <FormItem label="收款码">
+        <img @click="showQr = true" :src="qrImg" alt="" width="50" height="50"/>
+      </FormItem>
       <FormItem label="地址" prop="addressDetails">
         <Input v-model="formValidate.addressDetails" placeholder="请输入地址"/>
+      </FormItem>
+      <FormItem label="图片">
+        <UploadImg :callback="getImg" :get-img="formValidate.imageUrl" :shop-id="shopId"></UploadImg>
+      </FormItem>
+      <FormItem label="详情">
+        <Input
+          type="textarea"
+          v-model="formValidate.shopDesc"
+          placeholder="请输入商铺详情"
+          :autosize="{minRows:2,maxRows:6}"
+        />
       </FormItem>
       <FormItem label="营业时间">
         <TimePicker
@@ -66,14 +80,33 @@
         :callback="setMaps"
       ></LocationMap>
     </Modal>
+    <Modal
+      v-model="showQr"
+      footer-hide
+      :closable="false"
+    >
+      <Row type="flex" justify="center">
+        <Col>
+          <div id="qrImg">
+            <img width="400" height="400" :src="qrImg" alt="">
+          </div>
+          <Divider></Divider>
+          <div style="text-align: center;">
+            <Button type="warning" @click="printQr">打印</Button>
+          </div>
+        </Col>
+      </Row>
+    </Modal>
   </div>
 </template>
 
 <script>
   import LocationMap from '@/views/ShopManage/ShopList/LocationMap' // 定位弹窗
+  import UploadImg from '@/views/ShopManage/ShopList/UploadImg'
   import { editShopDetail, getShopDetail } from '@/api/ShopApi'
   import { getAllDiscounts } from '@/api/discountsManage/DiscountsApi' // 优惠信息
   import { validatePhone } from '@/utils'
+  import qrImg from '@/assets/qr.png'
 
   export default {
     props: {
@@ -91,7 +124,9 @@
           longitude: '',
           beginTime: '',
           endTime: '',
-          discountId: []
+          discountId: [],
+          shopDesc: '',
+          imageUrl: []
         },
         // 表单验证
         ruleValidate: {
@@ -117,6 +152,8 @@
         businessHoursValue: [],
         // 优惠列表
         discountList: [],
+        qrImg,
+        showQr: false
       }
     },
     beforeMount () {
@@ -141,8 +178,13 @@
           this.businessHoursValue = [data.beginTime, data.endTime]
         })
       },
+      getImg (data) {
+        this.formValidate.imageUrl = data
+        console.log(this.formValidate)
+      },
       // 保存修改
       modalOk: function () {
+        console.log(1111, this.formValidate)
         if (!this.formValidate.longitude) {
           this.$Message.error('请选择定位')
           return false
@@ -152,6 +194,7 @@
             for (let i in this.businessHours) {
               this.formValidate[i] = this.businessHours[i]
             }
+            console.log(this.formValidate)
             editShopDetail({
               id: this.shopId,
               ...this.formValidate
@@ -183,10 +226,22 @@
           this.formValidate.longitude = data.lnglat.lng
         }
         this.showMap = false
+      },
+      printQr () {
+        let iframe = document.createElement('iframe')
+        let el = document.getElementById('qrImg')
+        document.body.appendChild(iframe)
+        let doc = iframe.contentWindow.document
+        doc.write(`<div>${el.innerHTML}</div>`)
+        doc.close()
+        console.log(iframe)
+        iframe.contentWindow.focus()
+        iframe.contentWindow.print()
       }
     },
     components: {
-      LocationMap
+      LocationMap,
+      UploadImg
     }
   }
 </script>

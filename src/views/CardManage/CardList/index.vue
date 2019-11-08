@@ -3,7 +3,7 @@
     <!--搜索，导入卡券-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = true, showAdd = true">
@@ -57,7 +57,7 @@
 <script>
   import AddCard from '@/views/CardManage/CardList/AddCard' // 分页
   import ExportCard from '@/views/CardManage/CardList/ExportCard'
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC'
   import { getCardList } from '@/api/CardManageApi'
 
@@ -70,16 +70,20 @@
             key: 'basicsName'
           },
           {
-            title: '卡券号',
-            key: 'name'
-          },
-          {
             title: '价格',
-            key: 'price'
+            key: 'basicsPrice'
           },
           {
-            title: '次数',
-            key: 'count'
+            title: '总次数',
+            key: 'sum'
+          },
+          {
+            title: '未使用次数',
+            key: 'sumUnused'
+          },
+          {
+            title: '已使用次数',
+            key: 'sumUsed'
           }
         ],
         data1: [],
@@ -127,7 +131,7 @@
     components: {
       AddCard,
       ExportCard,
-      SearchM,
+      SearchC,
       PageM
     }
   }

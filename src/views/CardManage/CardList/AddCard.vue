@@ -1,13 +1,13 @@
 <template>
   <div class="add-user">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-      <FormItem label="卡券名" prop="cardName">
-        <Select v-model="formValidate.cardName">
+      <FormItem label="卡券名" prop="basicsId">
+        <Select v-model="formValidate.basicsId">
           <Option v-for="item in cardList" :key="item.id" :value="item.id">{{item.name}}</Option>
         </Select>
       </FormItem>
-      <FormItem label="次数" prop="count">
-        <Input v-model="formValidate.count" placeholder="请输入次数"/>
+      <FormItem label="次数" prop="cardVolumeNumber">
+        <Input v-model="formValidate.cardVolumeNumber" placeholder="请输入次数"/>
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">
@@ -23,6 +23,7 @@
 
 <script>
   import { getAllCardMessageList } from '@/api/baseManage/CardMessageApi'
+  import { createCard } from '@/api/CardManageApi'
 
   export default {
     props: {
@@ -32,15 +33,14 @@
     data () {
       return {
         formValidate: {
-          cardName: '',
-          price: '',
-          count: '',
+          basicsId: '',
+          cardVolumeNumber: '',
         },
         ruleValidate: {
-          cardName: [
+          basicsId: [
             { required: true, message: '请输入卡券名', trigger: 'change' }
           ],
-          count: [
+          cardVolumeNumber: [
             { required: true, message: '请输入次数', trigger: 'blur change' }
           ],
         },
@@ -59,8 +59,12 @@
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
-            this.$Message.success('编辑成功!')
-            this.callback()
+            createCard(this.formValidate).then(res => {
+              if (+res.data.code === 0) {
+                this.$Message.success('生成卡券成功!')
+                this.callback()
+              }
+            })
           } else {
             this.$Message.error('请输入完整信息!')
           }

@@ -70,5 +70,12 @@ const searchSelectList = {
       name: '卡券名'
     }
   ],
+  // 卡券管理
+  CardSearch: [
+    {
+      key: 'serialNumber',
+      name: '卡券码'
+    }
+  ],
 }
 export default searchSelectList

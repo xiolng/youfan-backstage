@@ -3,7 +3,7 @@
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = true, showAdd = !showAdd">新增</Button>
@@ -62,7 +62,7 @@
 
 <script>
   import AddDiscounts from '@/views/DiscountsManage/DiscountsList/AddDiscounts'
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
   import { getDiscountsList, deleteDiscounts } from '@/api/discountsManage/DiscountsApi'
   import EditDiscounts from '@/views/DiscountsManage/DiscountsList/EditDiscounts'
@@ -193,7 +193,7 @@
     components: {
       EditDiscounts,
       AddDiscounts,
-      SearchM,
+      SearchC,
       PageM
     }
   }

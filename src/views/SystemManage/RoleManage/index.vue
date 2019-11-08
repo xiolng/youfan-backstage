@@ -3,7 +3,7 @@
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = !showModal,showAdd = !showAdd">新增</Button>
@@ -65,7 +65,7 @@
   import AddRole from '@/views/SystemManage/RoleManage/AddRole' // 新增角色
   import EditRole from '@/views/SystemManage/RoleManage/EditRole' // 编辑角色
   import PageM from '@/components/PageC/PageC' // 分页
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import { getRolePage, deleteRole } from '@/api/systemManage/role' // 接口
 
   export default {
@@ -216,7 +216,7 @@
     components: {
       AddRole,
       EditRole,
-      SearchM,
+      SearchC,
       PageM
     }
   }

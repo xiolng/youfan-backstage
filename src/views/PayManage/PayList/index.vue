@@ -3,7 +3,7 @@
     <!--搜索-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
 
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
   import { getPayList } from '@/api/payManage/PayList'
 
@@ -36,21 +36,21 @@
         columns1: [
           {
             title: '商铺名',
-            key: 'name',
+            key: 'shopName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
             title: '会员名',
-            key: 'discountsMessage',
+            key: 'memberName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '卡券名',
-            key: 'count',
+            title: '优惠信息',
+            key: 'discountName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
@@ -99,7 +99,7 @@
       }
     },
     components: {
-      SearchM,
+      SearchC,
       PageM
     }
   }

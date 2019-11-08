@@ -3,11 +3,17 @@
     <!--搜索，导入会员-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
-        <Upload action="/">
-          <Button size="default" type="primary">
+        <Upload
+          action="/"
+          :before-upload="uploadOk"
+        >
+          <Button
+            size="default"
+            type="primary"
+          >
             <Icon type="ios-cloud-upload-outline"></Icon>
             导入会员
           </Button>
@@ -26,19 +32,19 @@
         ref="table"
       >
         <!--操作-->
-        <div slot="action">
-          <Tooltip content="编辑" placement="top" transfer>
-            <div class="icons" @click="showAdd = !showAdd">
-              <Icon type="md-create" size="16"></Icon>
-            </div>
+        <!--<div slot="action">-->
+        <!--  <Tooltip content="编辑" placement="top" transfer>-->
+        <!--    <div class="icons" @click="showAdd = !showAdd">-->
+        <!--      <Icon type="md-create" size="16"></Icon>-->
+        <!--    </div>-->
 
-          </Tooltip>
-          <Tooltip content="删除" placement="top" transfer>
-            <div @click="showDel = !showDel">
-              <Icon type="ios-trash" size="18"></Icon>
-            </div>
-          </Tooltip>
-        </div>
+        <!--  </Tooltip>-->
+        <!--  <Tooltip content="删除" placement="top" transfer>-->
+        <!--    <div @click="showDel = !showDel">-->
+        <!--      <Icon type="ios-trash" size="18"></Icon>-->
+        <!--    </div>-->
+        <!--  </Tooltip>-->
+        <!--</div>-->
       </Table>
     </div>
     <!--分页配置-->
@@ -64,9 +70,9 @@
 
 <script>
   import EditMember from '@/views/MemberManage/MemberList/EditMember'
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getMemberList } from '@/api/MemberApi'
+  import { getMemberList, importMember } from '@/api/MemberApi'
 
   export default {
     data () {
@@ -88,7 +94,7 @@
           },
           {
             title: '卡券次数',
-            key: 'coupon',
+            key: 'discountsNumber',
             ellipsis: true,
             minWidth: 100,
             tooltip: true
@@ -100,9 +106,19 @@
             minWidth: 150,
             tooltip: true
           },
+          // {
+          //   title: '性别',
+          //   key: 'sex',
+          //   ellipsis: true,
+          //   minWidth: 150,
+          //   tooltip: true,
+          //   render (h, params) {
+          //     return h('span', +params.row.sex === 1 ? '女' : '男')
+          //   }
+          // },
           {
-            title: '性别',
-            key: 'sex',
+            title: '地址',
+            key: 'addressDetails',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
@@ -135,13 +151,13 @@
             minWidth: 150,
             tooltip: true
           },
-          {
-            title: '操作',
-            key: 'action',
-            slot: 'action',
-            fixed: 'right',
-            minWidth: 100
-          }
+          // {
+          //   title: '操作',
+          //   key: 'action',
+          //   slot: 'action',
+          //   fixed: 'right',
+          //   minWidth: 100
+          // }
         ],
         data1: [],
         showAdd: false,
@@ -166,6 +182,20 @@
           this.data1 = res.data.data
         })
       },
+      uploadOk (files) {
+        let file = new FormData()
+        file.append('file', files)
+        importMember(file).then(res => {
+          if (+res.data.code === 0) {
+            this.$Message.success('导入成功！')
+            this.getList()
+            return false
+          }
+          this.$Message.error(res.data.msg)
+        })
+        this.getList()
+        return false
+      },
       saveAdd () {
         this.showAdd = false
       },
@@ -181,7 +211,7 @@
     },
     components: {
       EditMember,
-      SearchM,
+      SearchC,
       PageM
     }
   }

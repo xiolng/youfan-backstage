@@ -3,7 +3,7 @@
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"></SearchM>
+        <SearchC @get-list="clickSearch"></SearchC>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = !showModal,showAdd = !showAdd">新增</Button>
@@ -65,7 +65,7 @@
 <script>
   import AddUser from '@/views/SystemManage/UserManage/AddUser' // 新增用户
   import EditUser from '@/views/SystemManage/UserManage/EditUser' // 编辑用户
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
   import { getUserList, deleteUser } from '@/api/systemManage/user' // 接口
 
@@ -223,7 +223,7 @@
     components: {
       AddUser,
       EditUser,
-      SearchM,
+      SearchC,
       PageM
     }
   }

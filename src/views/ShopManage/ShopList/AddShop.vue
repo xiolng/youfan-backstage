@@ -8,12 +8,36 @@
         <Input v-model="formValidate.phone" placeholder="请输入联系电话"/>
       </FormItem>
       <FormItem label="优惠信息">
-        <Select v-model="formValidate.discountId" multiple filterable placeholder="请输入名称搜索或者选择">
-          <Option v-for="item in discountList" :key="item.id" :value="item.id">{{item.discountName}}</Option>
+        <Select
+          v-model="formValidate.discountId"
+          multiple
+          filterable
+          placeholder="请输入名称搜索或者选择"
+        >
+          <Option
+            v-for="item in discountList"
+            :key="item.id"
+            :value="item.id"
+          >{{item.discountName}}
+          </Option>
         </Select>
+      </FormItem>
+      <FormItem label="收款码">
+        <img @click="showQr = true" :src="qrImg" alt="" width="50" height="50"/>
       </FormItem>
       <FormItem label="地址" prop="addressDetails">
         <Input v-model="formValidate.addressDetails" placeholder="请输入地址"/>
+      </FormItem>
+      <FormItem label="图片">
+        <UploadImg :callback="getImg"></UploadImg>
+      </FormItem>
+      <FormItem label="详情">
+        <Input
+          type="textarea"
+          v-model="formValidate.shopDesc"
+          placeholder="请输入商铺详情"
+          :autosize="{minRows:2,maxRows:6}"
+        />
       </FormItem>
       <FormItem label="营业时间">
         <TimePicker @on-change="changeTime" format="HH:mm" type="timerange" placement="bottom-end"
@@ -46,9 +70,11 @@
 
 <script>
   import LocationMap from '@/views/ShopManage/ShopList/LocationMap'
+  import UploadImg from '@/views/ShopManage/ShopList/UploadImg'
   import { saveShop } from '@/api/ShopApi'
   import { getAllDiscounts } from '@/api/discountsManage/DiscountsApi'
   import { validatePhone } from '@/utils'
+  import qrImg from '@/assets/qr.png'
 
   export default {
     props: {
@@ -65,7 +91,9 @@
           longitude: '',
           beginTime: '',
           endTime: '',
-          discountId: []
+          discountId: [],
+          shopDesc: '',
+          imageUrl: []
         },
         // 表单验证
         ruleValidate: {
@@ -90,7 +118,14 @@
         // 优惠信息
         discountList: [],
         // 定位数据
-        locationData: {}
+        locationData: {
+          lnglat: {
+            lng: '',
+            lat: ''
+          }
+        },
+        qrImg,
+        showQr: false
       }
     },
     beforeMount () {
@@ -125,6 +160,10 @@
           }
         })
       },
+      getImg (data) {
+        this.formValidate.imageUrl = data
+        console.log(this.formValidate)
+      },
       // 选择营业时间
       changeTime (data) {
         this.businessHours.beginTime = data[0]
@@ -145,7 +184,8 @@
       }
     },
     components: {
-      LocationMap
+      LocationMap,
+      UploadImg
     }
   }
 </script>

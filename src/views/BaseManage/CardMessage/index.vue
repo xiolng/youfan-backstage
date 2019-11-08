@@ -3,7 +3,7 @@
     <!--搜索，导入卡券-->
     <Row type="flex" justify="space-between">
       <Col>
-        <SearchM @get-list="clickSearch"/>
+        <SearchC @get-list="clickSearch"/>
       </Col>
       <Col>
         <Button size="default" type="primary" @click="showModal = true, showAdd = true">
@@ -73,7 +73,7 @@
 <script>
   import AddCardMessage from '@/views/BaseManage/CardMessage/AddCardMessage'
   import EditCardMessage from '@/views/BaseManage/CardMessage/EditCardMessage'
-  import SearchM from '@/components/SearchC/SearchC' // 搜索框
+  import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
   import { getCardMessageList, deleteCardMessage } from '@/api/baseManage/CardMessageApi'
 
@@ -200,7 +200,7 @@
     components: {
       AddCardMessage,
       EditCardMessage,
-      SearchM,
+      SearchC,
       PageM
     }
   }
