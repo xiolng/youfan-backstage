@@ -13,7 +13,7 @@ const routes = [
         redirect: { name: '用户管理' },
         children: [
           {
-            path: '',
+            path: 'user',
             name: '用户管理',
             component: () => import('@/views/SystemManage/UserManage'),
             meta: {
@@ -46,7 +46,7 @@ const routes = [
         redirect: { name: '卡券列表' },
         children: [
           {
-            path: '',
+            path: 'cardList',
             name: '卡券列表',
             component: () => import('@/views/CardManage/CardList'),
             meta: {
@@ -71,7 +71,7 @@ const routes = [
         redirect: { name: '会员列表' },
         children: [
           {
-            path: '',
+            path: 'memberList',
             name: '会员列表',
             component: () => import('@/views/MemberManage/MemberList'),
             meta: {
@@ -88,7 +88,7 @@ const routes = [
         redirect: { name: '商铺列表' },
         children: [
           {
-            path: '',
+            path: 'shopList',
             name: '商铺列表',
             component: () => import('@/views/ShopManage/ShopList'),
             meta: {
@@ -110,7 +110,7 @@ const routes = [
         redirect: { name: '优惠信息' },
         children: [
           {
-            path: '',
+            path: 'discountsMessage',
             name: '优惠信息',
             component: () => import('@/views/DiscountsManage/DiscountsList'),
             meta: {
@@ -127,7 +127,7 @@ const routes = [
         redirect: { name: '流水' },
         children: [
           {
-            path: '',
+            path: 'runningWater',
             name: '流水',
             component: () => import('@/views/PayManage/PayList'),
             meta: {
@@ -144,7 +144,7 @@ const routes = [
         redirect: { name: '卡券信息' },
         children: [
           {
-            path: '',
+            path: 'cardMessage',
             name: '卡券信息',
             component: () => import('@/views/BaseManage/CardMessage'),
             meta: {

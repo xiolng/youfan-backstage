@@ -27,7 +27,6 @@
         :columns="columns1"
         :data="data1"
         size="default"
-        max-height="400"
         class="table"
         ref="table"
       >
@@ -204,9 +203,11 @@
       },
       setPage (data) {
         this.pages = data
+        this.getList()
       },
       clickSearch (data) {
         this.searchName = data
+        this.getList()
       }
     },
     components: {

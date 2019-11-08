@@ -136,13 +136,11 @@
     methods: {
       /**
        * 获取角色列表
-       * @param pages 当前页数
-       * @param roleName 角色名
        */
       getList () {
         getRolePage({
           ...this.pages,
-          ...this.roleName
+          ...this.searchName
         }).then(res => {
           this.data1 = res.data.data
           this.total = res.data.total
@@ -154,14 +152,14 @@
        */
       setPage (data) {
         this.pages = data
-        this.getList(this.pages, this.searchName)
+        this.getList()
       },
       /**
        * 搜索关键字
        */
       clickSearch (data) {
         this.searchName = data
-        this.getList(this.pages, this.searchName)
+        this.getList()
       },
       /**
        * 编辑角色

@@ -58,8 +58,7 @@
   export default {
     props: {
       callback: Function,
-      getImg: Array,
-      shopId: String
+      getImg: Array
     },
     data () {
       return {
@@ -70,7 +69,7 @@
     },
     watch: {
       'getImg': function () {
-        this.imgUrl = this.getImg
+        if (this.getImg) this.imgUrl = this.getImg
       }
     },
     methods: {

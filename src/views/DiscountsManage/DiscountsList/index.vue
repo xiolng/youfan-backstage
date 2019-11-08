@@ -16,7 +16,6 @@
         :columns="columns1"
         :data="data1"
         size="default"
-        max-height="400"
         class="table"
       >
         <!--操作-->

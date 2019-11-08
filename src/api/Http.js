@@ -5,7 +5,14 @@ const Http = axios.create({
 })
 Http.interceptors.request.use(
   config => {
-    config.headers.Authorization = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzODg1ODE1ODBmZGY5M2RlZGQyY2NlNDIzYzJhNWNhMSIsImlhdCI6MTU3Mjg1MDcyMywiZXhwIjoxNTczNDU1NTIzfQ.rWQfoCamHlSLCi6PXl9LEjSnRVsnb5GXJQHSWqjmVCoPsTh5TTnf9xRZdDfJayeiViuZ9Pq0Kz5HGWOtBhcHGA`
+    let isLogin = config.url.indexOf('login')
+    const token = localStorage.getItem('accessToken')
+    if (isLogin <= -1) {
+      if (!token) {
+        location.href = '/#/login'
+      }
+      config.headers.Authorization = token
+    }
     return config
   },
   error => {

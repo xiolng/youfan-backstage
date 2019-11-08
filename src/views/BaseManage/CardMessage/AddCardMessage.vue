@@ -7,8 +7,8 @@
       <FormItem label="价格" prop="price">
         <Input v-model="formValidate.price" placeholder="请输入价格"/>
       </FormItem>
-      <FormItem label="次数" prop="discountsNumber">
-        <Input v-model="formValidate.discountsNumber" placeholder="请输入次数"/>
+      <FormItem label="张" prop="discountsNumber">
+        <Input v-model="formValidate.discountsNumber" placeholder="请输入张数"/>
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">
@@ -45,7 +45,7 @@
             { required: true, message: '请输入价格', trigger: 'blur' }
           ],
           discountsNumber: [
-            { required: true, message: '请输入次数', trigger: 'blur' }
+            { required: true, message: '请输入张数', trigger: 'blur' }
           ],
         }
       }

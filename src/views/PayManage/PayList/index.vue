@@ -16,7 +16,6 @@
         :columns="columns1"
         :data="data1"
         size="default"
-        max-height="400"
         class="table"
       />
     </div>
@@ -93,9 +92,11 @@
       },
       clickSearch (data) {
         this.searchName = data
+        this.getList()
       },
       setPage (data) {
         this.pages = data
+        this.getList()
       }
     },
     components: {

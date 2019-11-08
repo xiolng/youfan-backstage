@@ -1,58 +1,84 @@
 <template>
-  <div class="add-user">
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-      <FormItem label="商铺名" prop="shopName">
-        <Input v-model="formValidate.shopName" placeholder="请输入商铺名"/>
-      </FormItem>
-      <FormItem label="联系电话" prop="phone">
-        <Input v-model="formValidate.phone" placeholder="请输入联系电话"/>
-      </FormItem>
-      <FormItem label="优惠信息">
-        <Select
-          v-model="formValidate.discountId"
-          multiple
-          filterable
-          placeholder="请输入名称搜索或者选择"
-        >
-          <Option
-            v-for="item in discountList"
-            :key="item.id"
-            :value="item.id"
-          >{{item.discountName}}
-          </Option>
-        </Select>
-      </FormItem>
-      <FormItem label="收款码">
-        <img @click="showQr = true" :src="qrImg" alt="" width="50" height="50"/>
-      </FormItem>
-      <FormItem label="地址" prop="addressDetails">
-        <Input v-model="formValidate.addressDetails" placeholder="请输入地址"/>
-      </FormItem>
-      <FormItem label="图片">
-        <UploadImg :callback="getImg"></UploadImg>
-      </FormItem>
-      <FormItem label="详情">
-        <Input
-          type="textarea"
-          v-model="formValidate.shopDesc"
-          placeholder="请输入商铺详情"
-          :autosize="{minRows:2,maxRows:6}"
-        />
-      </FormItem>
-      <FormItem label="营业时间">
-        <TimePicker @on-change="changeTime" format="HH:mm" type="timerange" placement="bottom-end"
-                    placeholder="请输入营业时间"></TimePicker>
-      </FormItem>
-      <FormItem label="定位">
-        <Button
-          :type="formValidate.longitude ? 'primary':'warning'"
-          @click="showMap = !showMap"
-          size="small"
-        >
-          {{formValidate.longitude ? '已定位':'未定位'}}
-        </Button>
-      </FormItem>
-    </Form>
+  <div class="add-shop">
+    <div class="add-box">
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <FormItem label="商铺名" prop="shopName">
+          <Input v-model="formValidate.shopName" placeholder="请输入商铺名"/>
+        </FormItem>
+        <FormItem label="联系电话" prop="phone">
+          <Input v-model="formValidate.phone" placeholder="请输入联系电话"/>
+        </FormItem>
+        <FormItem label="优惠信息">
+          <Select
+            v-model="formValidate.discountId"
+            multiple
+            filterable
+            placeholder="请输入名称搜索或者选择"
+          >
+            <Option
+              v-for="item in discountList"
+              :key="item.id"
+              :value="item.id"
+            >{{item.discountName}}
+            </Option>
+          </Select>
+        </FormItem>
+        <FormItem label="地址" prop="addressDetails">
+          <Input v-model="formValidate.addressDetails" placeholder="请输入地址"/>
+        </FormItem>
+        <FormItem label="LOGO">
+          <Upload
+            v-show="!formValidate.shopLogo"
+            action="/"
+            :before-upload="updateLogo"
+          >
+            <Button
+              type="primary"
+              size="small"
+            >
+              上传logo
+            </Button>
+          </Upload>
+          <div class="logo-box" v-if="formValidate.shopLogo" @click="formValidate.shopLogo = ''">
+            <img :src="formValidate.shopLogo" alt="" width="50" height="50"/>
+            <div class="del-txt">删除</div>
+          </div>
+        </FormItem>
+        <FormItem label="描述">
+          <Input v-model="formValidate.shopSketch" placeholder="请输入描述"/>
+        </FormItem>
+        <FormItem label="详情图片">
+          <UploadImg :callback="getImg"></UploadImg>
+        </FormItem>
+        <FormItem label="详情">
+          <Input
+            type="textarea"
+            v-model="formValidate.shopDesc"
+            placeholder="请输入商铺详情"
+            :autosize="{minRows:2,maxRows:6}"
+          />
+        </FormItem>
+        <FormItem label="营业时间">
+          <TimePicker
+            @on-change="changeTime"
+            format="HH:mm"
+            type="timerange"
+            placement="top"
+            placeholder="请输入营业时间"
+            transfer
+          ></TimePicker>
+        </FormItem>
+        <FormItem label="定位">
+          <Button
+            :type="formValidate.longitude ? 'primary':'warning'"
+            @click="showMap = !showMap"
+            size="small"
+          >
+            {{formValidate.longitude ? '已定位':'未定位'}}
+          </Button>
+        </FormItem>
+      </Form>
+    </div>
     <Row type="flex" justify="end" :gutter="20">
       <Col>
         <Button type="text" @click="modalCancel">取消</Button>
@@ -71,10 +97,9 @@
 <script>
   import LocationMap from '@/views/ShopManage/ShopList/LocationMap'
   import UploadImg from '@/views/ShopManage/ShopList/UploadImg'
-  import { saveShop } from '@/api/ShopApi'
+  import { saveShop, uploadCardImg } from '@/api/ShopApi'
   import { getAllDiscounts } from '@/api/discountsManage/DiscountsApi'
   import { validatePhone } from '@/utils'
-  import qrImg from '@/assets/qr.png'
 
   export default {
     props: {
@@ -93,7 +118,9 @@
           endTime: '',
           discountId: [],
           shopDesc: '',
-          imageUrl: []
+          imageUrl: [],
+          shopSketch: '',
+          shopLogo: ''
         },
         // 表单验证
         ruleValidate: {
@@ -123,9 +150,7 @@
             lng: '',
             lat: ''
           }
-        },
-        qrImg,
-        showQr: false
+        }
       }
     },
     beforeMount () {
@@ -140,10 +165,6 @@
       },
       // 保存修改
       modalOk () {
-        if (!this.formValidate.longitude) {
-          this.$Message.error('请选择定位')
-          return false
-        }
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
             for (let i in this.businessHours) {
@@ -173,6 +194,14 @@
         this.$refs['formValidate'].resetFields()
         this.callback()
       },
+      updateLogo (data) {
+        let file = new FormData()
+        file.append('file', data)
+        uploadCardImg(file).then(res => {
+          this.formValidate.shopLogo = res.data.data
+        })
+        return false
+      },
       // 设置定位
       setMaps (data) {
         if (data) {
@@ -190,6 +219,33 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+  .add-box
+    max-height 500px
+    overflow hidden
+    overflow-y auto
 
+  .logo-box
+    width 50px
+    height 50px
+    position relative
+
+    &:hover
+      .del-txt
+        opacity 1
+        transition all linear .24s
+
+    .del-txt
+      left 0
+      top 0
+      right 0
+      bottom 0
+      position absolute
+      z-index 2
+      text-align center
+      line-height 50px
+      background rgba(0, 0, 0, .8)
+      color #cccccc
+      opacity 0
+      transition all linear .24s
 </style>

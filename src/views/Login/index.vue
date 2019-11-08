@@ -14,7 +14,12 @@
             </Input>
           </FormItem>
           <FormItem label="密码" prop="password">
-            <Input type="password" v-model="formValidate.password" placeholder="请输入密码">
+            <Input
+              type="password"
+              v-model="formValidate.password"
+              placeholder="请输入密码"
+              @on-enter="handleSubmit('formValidate')"
+            >
               <Icon type="ios-lock-outline" slot="prepend" size="18"></Icon>
             </Input>
           </FormItem>
@@ -56,8 +61,8 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             setLogin(this.formValidate).then(res => {
-              if (+res.data.code === 0) {
-                this.$Message.success('编辑成功!')
+              if (res.data.accessToken) {
+                localStorage.setItem('accessToken', `${res.data.tokenType} ${res.data.accessToken}`)
                 this.$refs[name].resetFields()
                 this.$router.push('/')
               }

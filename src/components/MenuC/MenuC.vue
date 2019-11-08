@@ -22,10 +22,13 @@
           v-for="list in item.children"
           :name="list.title"
           :key="list.title"
-          :to="{name: list.title}"
+          :to="{path: `/${item.path}/${list.path}`}"
           class="side-item"
         >
-          <span>{{list.title}}</span>
+          <span>
+            <Icon :type="list.icon" color="#ccc"></Icon>
+            {{list.title}}
+          </span>
         </MenuItem>
       </Submenu>
     </Menu>
@@ -63,9 +66,7 @@
         this.setBreadParent(this.parentName)
       },
       OpenMenu (e) {
-        if (e.length >= 1) {
-          this.parentName = e
-        }
+        this.parentName = e
       }
     },
     computed: {

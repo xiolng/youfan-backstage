@@ -16,7 +16,6 @@
         :columns="columns1"
         :data="data1"
         size="default"
-        max-height="520"
         class="table"
       >
         <!--操作-->
@@ -89,20 +88,6 @@
             tooltip: true
           },
           {
-            title: '创建时间',
-            key: 'createTime',
-            ellipsis: true,
-            minWidth: 150,
-            tooltip: true
-          },
-          {
-            title: '更新时间',
-            key: 'updateTime',
-            ellipsis: true,
-            minWidth: 150,
-            tooltip: true
-          },
-          {
             title: '电话',
             key: 'phone',
             ellipsis: true,
@@ -112,6 +97,27 @@
           {
             title: '创建人',
             key: 'createBy',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '创建时间',
+            key: 'createTime',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '更新人',
+            key: 'updateBy',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '更新时间',
+            key: 'updateTime',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
@@ -148,7 +154,7 @@
        */
       getList () {
         getUserList({
-          ...this.page,
+          ...this.pages,
           ...this.searchName,
         }).then(res => {
           this.data1 = res.data.data

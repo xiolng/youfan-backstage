@@ -16,7 +16,6 @@
         :columns="columns1"
         :data="data1"
         size="default"
-        max-height="400"
         class="table"
       >
         <!--操作-->
@@ -65,7 +64,7 @@
   import EditShop from '@/views/ShopManage/ShopList/EditShop'
   import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getShopListAll, deleteShop } from '@/api/ShopApi'
+  import { getShopList, deleteShop } from '@/api/ShopApi'
 
   export default {
     data () {
@@ -112,17 +111,19 @@
           {
             title: '优惠信息',
             key: 'discountName',
-            ellipsis: true,
             minWidth: 150,
             tooltip: true,
             render (h, params) {
-              return h('Tooltip', {
-                  props: {
-                    content: params.row.discountName.join(', '),
-                    transfer: true
-                  }
+              return h('div', {
                 },
-                params.row.discountName.map(v => h('span', `${v},`))
+                [
+                  params.row.discountName.map(v => h('Tag', {
+                    props: {
+                      type: 'border',
+                      color: 'orange'
+                    }
+                  }, `${v}`))
+                ]
               )
             }
           },
@@ -182,7 +183,7 @@
     methods: {
       // 获取列表
       getList () {
-        getShopListAll({
+        getShopList({
           ...this.pages,
           ...this.searchName
         }).then(res => {

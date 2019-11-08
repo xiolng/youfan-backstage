@@ -26,30 +26,10 @@ module.exports = {
   devServer: {
     // host: '0.0.0.0',
     // disableHostCheck: true,
+    port: '4444',
     proxy: {
-      '/system': {
-        target: 'http://192.168.1.171',
-        pathRewrite: {
-          '^/system': '/system'
-        }
-      },
-      '/business': {
-        target: 'http://192.168.1.171',
-        pathRewrite: {
-          '^/business': '/business'
-        }
-      },
-      '/files': {
-        target: 'http://192.168.1.171',
-        pathRewrite: {
-          '^/files': '/files'
-        }
-      },
-      '/api': {
-        target: 'http://192.168.1.171',
-        pathRewrite: {
-          '^/api': '/api'
-        }
+      '/*': {
+        target: 'http://192.168.1.171'
       },
     }
   }

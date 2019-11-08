@@ -38,8 +38,8 @@ const searchSelectList = {
   // 会员管理
   MemberList: [
     {
-      key: 'memberName',
-      name: '会员名'
+      key: 'phone',
+      name: '手机号'
     }
   ],
   // 商铺管理

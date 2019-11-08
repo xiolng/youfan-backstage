@@ -19,7 +19,6 @@
         :columns="columns1"
         :data="data1"
         size="default"
-        max-height="400"
         class="table"
         ref="table"
       >
@@ -74,15 +73,15 @@
             key: 'basicsPrice'
           },
           {
-            title: '总次数',
+            title: '总张数',
             key: 'sum'
           },
           {
-            title: '未使用次数',
+            title: '未使用张数',
             key: 'sumUnused'
           },
           {
-            title: '已使用次数',
+            title: '已使用张数',
             key: 'sumUsed'
           }
         ],
@@ -112,6 +111,7 @@
       },
       setPage (data) {
         this.pages = data
+        this.getList()
       },
       closeModal () {
         this.showModal = false
@@ -121,6 +121,7 @@
       },
       clickSearch (data) {
         this.searchName = data
+        this.getList()
       },
       exportsTable () {
         this.$refs.table.exportCsv({

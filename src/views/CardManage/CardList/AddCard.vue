@@ -6,8 +6,8 @@
           <Option v-for="item in cardList" :key="item.id" :value="item.id">{{item.name}}</Option>
         </Select>
       </FormItem>
-      <FormItem label="次数" prop="cardVolumeNumber">
-        <Input v-model="formValidate.cardVolumeNumber" placeholder="请输入次数"/>
+      <FormItem label="张" prop="cardVolumeNumber">
+        <Input v-model="formValidate.cardVolumeNumber" placeholder="请输入张数"/>
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">
@@ -41,7 +41,7 @@
             { required: true, message: '请输入卡券名', trigger: 'change' }
           ],
           cardVolumeNumber: [
-            { required: true, message: '请输入次数', trigger: 'blur change' }
+            { required: true, message: '请输入张数', trigger: 'blur change' }
           ],
         },
         cardList: []
