@@ -81,7 +81,7 @@
             title: '联系电话',
             key: 'phone',
             ellipsis: true,
-            minWidth: 150,
+            minWidth: 130,
             tooltip: true
           },
           {
@@ -94,7 +94,7 @@
           {
             title: '营业时间',
             key: 'beginTime',
-            minWidth: 150,
+            minWidth: 110,
             render (h, params) {
               return h('Tooltip', {
                 props: {
@@ -111,7 +111,7 @@
           {
             title: '优惠信息',
             key: 'discountName',
-            minWidth: 150,
+            minWidth: 200,
             tooltip: true,
             render (h, params) {
               return h('div', {

@@ -12,7 +12,11 @@
       @on-open-change="OpenMenu"
     >
       <!--菜单循环-->
-      <Submenu v-for="item in menuList" :name="item.title" :key="item.title">
+      <Submenu
+        v-for="item in menuList"
+        :name="item.title"
+        :key="item.title"
+      >
         <template slot="title">
           <Icon :type="item.icon"></Icon>
           <span>{{item.title}}</span>
@@ -49,6 +53,7 @@
       }
     },
     beforeMount () {
+      this.parentName = this.getMenuSub
       this.$store.dispatch('commitMenus')
     },
     methods: {

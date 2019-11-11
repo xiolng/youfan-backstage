@@ -74,13 +74,13 @@
       }
     },
     beforeMount () {
+      this.getRole()
       // 获取用户详情
       getUserDetail({
         id: this.userId
       }).then(res => {
         this.formValidate = res.data.data
       })
-      this.getRole()
     },
     methods: {
       // 获取角色列表

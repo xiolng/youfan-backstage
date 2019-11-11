@@ -95,8 +95,10 @@
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
             this.formValidate.phone = this.formValidate.phone + ''
-            this.formValidate.roleId = [this.formValidate.roleId]
-            saveUser(this.formValidate).then(res => {
+            saveUser({
+              ...this.formValidate,
+              roleId: [this.formValidate.roleId]
+            }).then(res => {
               if (+res.data.code === 0) {
                 this.$Message.success('新增成功')
                 this.callback()

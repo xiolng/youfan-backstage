@@ -11,6 +11,7 @@
             :data="treeMenu(menuList)"
             show-checkbox
             @on-check-change="changeTree"
+            check-directly
           ></Tree>
         </div>
       </FormItem>

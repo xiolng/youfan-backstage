@@ -9,7 +9,7 @@
       <div class="login-content">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
           <FormItem label="用户名" prop="username">
-            <Input v-model="formValidate.username" placeholder="请输入用户名">
+            <Input v-model="formValidate.username" placeholder="请输入用户名" autofocus>
               <Icon type="ios-person-outline" slot="prepend" size="18"></Icon>
             </Input>
           </FormItem>
@@ -84,6 +84,7 @@
     position relative
     width 100%
     background #f9f9f9
+    animation rotateModule linear .5s
 
     .login-module
       min-width 300px
@@ -104,4 +105,12 @@
           position absolute
           left 50%
           top -20px
+
+  @keyframes rotateModule
+    0%
+      transform rotateY(0deg)
+    50%
+      transform rotateY(180deg)
+    100%
+      transform rotateY(360deg)
 </style>

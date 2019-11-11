@@ -4,21 +4,26 @@
  * @returns {[]}
  */
 export const treeMenu = data => {
-  const list = []
-  data.map(v => {
-    if (+v.parentId === 0) {
-      v.children = []
-      list.push(v)
+  let result = []
+  if (!Array.isArray(data)) {
+    return result
+  }
+  data.forEach(item => {
+    delete item.children
+  })
+  let map = {}
+  data.forEach(item => {
+    map[item.id] = item
+  })
+  data.forEach(item => {
+    let parent = map[item.parentId]
+    if (parent) {
+      (parent.children || (parent.children = [])).push(item)
+    } else {
+      result.push(item)
     }
   })
-  data.map(v => {
-    list.map(j => {
-      if (v.parentId === j.id) {
-        j.children.push(v)
-      }
-    })
-  })
-  return list
+  return result
 }
 export const rootFun = function (h, { root, node, data }) {
   const vm = this
@@ -169,7 +174,8 @@ export const renderContent = function (h, { root, node, data }) {
                 placement: 'top'
               },
               style: {
-                cursor: 'pointer'
+                cursor: 'pointer',
+                visibility: !data.children ? 'hidden' : 'initial'
               }
             }, [
               h('Button', {
