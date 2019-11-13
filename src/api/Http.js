@@ -10,7 +10,7 @@ Http.interceptors.request.use(
     const token = localStorage.getItem('accessToken')
     if (isLogin <= -1) {
       if (!token) {
-        location.href = '/#/login'
+        location.href = '/#/signin'
       }
       config.headers.Authorization = token
     }

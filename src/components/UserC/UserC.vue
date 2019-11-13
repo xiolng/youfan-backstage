@@ -55,7 +55,7 @@
         setOutLogin().then(res => {
           if (+res.data.code === 0) {
             localStorage.clear()
-            this.$router.push('/login')
+            this.$router.push('/signin')
           }
         })
       }

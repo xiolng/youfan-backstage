@@ -168,8 +168,8 @@ const routes = [
     ]
   },
   {
-    path: '/login',
-    name: 'login',
+    path: '/signin',
+    name: 'signin',
     component: () => import('@/views/Login')
   }
 ]
