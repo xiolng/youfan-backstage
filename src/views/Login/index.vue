@@ -61,11 +61,15 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             setLogin(this.formValidate).then(res => {
-              if (res.data.accessToken) {
+              if (res.data && res.data.accessToken) {
                 localStorage.setItem('accessToken', `${res.data.tokenType} ${res.data.accessToken}`)
                 this.$refs[name].resetFields()
                 this.$router.push('/')
+              } else {
+                this.$Message.error('用户名或密码错误')
               }
+            }, () => {
+              this.$Message.error('用户名或密码错误')
             })
           } else {
             this.$Message.error('请输入完整信息!')

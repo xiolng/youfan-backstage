@@ -1,16 +1,16 @@
 import axios from 'axios'
-const BASE_URL = '/api'
+const BASE_URL = ''
 const Http = axios.create({
   timeout: 10000,
   baseURL: BASE_URL
 })
 Http.interceptors.request.use(
   config => {
-    let isLogin = config.url.indexOf('login')
+    let isLogin = config.url.indexOf('signin')
     const token = localStorage.getItem('accessToken')
     if (isLogin <= -1) {
       if (!token) {
-        location.href = '/signin'
+        location.href = '/#/signin'
       }
       config.headers.Authorization = token
     }

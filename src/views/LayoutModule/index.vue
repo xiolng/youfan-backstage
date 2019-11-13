@@ -56,6 +56,16 @@
   import UserC from '@/components/UserC/UserC'
 
   export default {
+    beforeRouteEnter (to, form, next) {
+      const token = localStorage.getItem('accessToken')
+      if (token) {
+        next()
+      } else {
+        next({
+          name: 'login'
+        })
+      }
+    },
     data () {
       return {
         isCollapsed: false
