@@ -16,11 +16,12 @@
     },
     data () {
       return {
-        isFull: false,
+        isFull: false, // 是否全屏
       }
     },
     beforeMount () {
       const vm = this
+      // 监听全屏
       window.onresize = function () {
         if (vm.getFullScreen()) {
           vm.$set(vm, 'isFull', false)
@@ -30,6 +31,7 @@
       }
     },
     methods: {
+      // 设置全屏
       handleFullscreen () {
         if (this.getFullScreen()) {
           if (document.documentElement.requestFullscreen) {
@@ -49,6 +51,7 @@
           }
         }
       },
+      // 获取是否全屏
       getFullScreen () {
         return (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)
       }

@@ -28,13 +28,11 @@
       }
     },
     mounted () {
-      console.log(this.markerValue)
       const vm = this
       this.initMap()
       this.mapBox.on('click', e => {
         this.lnglatValue = e
         vm.setMarker(e)
-        console.log(e)
       })
       if (this.lnglatValue) this.setMarker(this.lnglatValue)
     },

@@ -4,7 +4,6 @@
       <!--左侧 侧边栏-->
       <Sider ref="side1" hide-trigger collapsible v-model="isCollapsed">
         <!--logo-->
-        <!--logo-->
         <div class="logo-box">
           <img src="../../assets/logo.png" alt="">
         </div>

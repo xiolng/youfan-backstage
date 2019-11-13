@@ -54,13 +54,14 @@
       }
     },
     methods: {
+      // 搜索卡号
       clickSearch (data) {
-        if (!data.serialNumber) {
+        if (!data) {
           this.cardCode = ''
           this.cardStatus = ''
           return false
         }
-        this.cardCode = data.serialNumber
+        this.cardCode = data[Object.keys(data)[0]]
         getCardStatus(data).then(res => {
           this.cardStatus = res.data.data.status
         })

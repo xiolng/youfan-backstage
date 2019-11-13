@@ -1,10 +1,6 @@
 /**
  * 搜索关键字
- * @type {{
- * PayList: 页面
- * {name: string, 关键字
- * key: string 传参 key值
- * }[]}}
+ * @type {{PayList: {name: string, key: string}[]}}
  */
 const searchSelectList = {
   // 用户管理

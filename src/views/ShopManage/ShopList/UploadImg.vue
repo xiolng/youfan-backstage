@@ -83,7 +83,6 @@
         return false
       },
       uploadProgress (event, file, fileList) {
-        console.log(event, file, fileList)
       },
       showImg (inx) {
         this.activeUrl = this.imgUrl[inx]

@@ -158,14 +158,14 @@
         // 表单验证
         ruleValidate: {
           shopName: [
-            { required: true, message: '请输入商铺名', trigger: 'blur' }
+            { required: true, message: '请输入商铺名', trigger: 'blur change' }
           ],
           phone: [
-            { required: true, message: '请输入联系电话', trigger: 'blur' },
+            { required: true, message: '请输入联系电话', trigger: 'blur change' },
             { validator: validatePhone, trigger: 'change' }
           ],
           addressDetails: [
-            { required: true, message: '请输入地址', trigger: 'blur' }
+            { required: true, message: '请输入地址', trigger: 'blur change' }
           ],
         },
         // 地图弹窗
@@ -203,7 +203,6 @@
           }
           this.businessHours.endTime = data.endTime
           this.businessHours.beginTime = data.beginTime
-          console.log(this.businessHours)
           this.businessHoursValue = [data.beginTime, data.endTime]
         })
       },
@@ -215,7 +214,6 @@
         const data = Object.assign({}, this.formValidate, this.businessHours)
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
-            console.log(this.formValidate, data)
             editShopDetail({
               id: this.shopId,
               ...data

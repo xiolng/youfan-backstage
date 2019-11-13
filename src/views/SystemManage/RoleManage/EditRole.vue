@@ -46,7 +46,7 @@
         },
         ruleValidate: {
           roleName: [
-            { required: true, message: '请输入角色名', trigger: 'blur' }
+            { required: true, message: '请输入角色名', trigger: 'blur change' }
           ],
         },
         menuList: [], // 菜单列表

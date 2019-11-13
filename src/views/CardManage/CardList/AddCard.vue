@@ -32,13 +32,15 @@
     },
     data () {
       return {
+        // form表单
         formValidate: {
           basicsId: '',
           cardVolumeNumber: '',
         },
+        // 表单验证
         ruleValidate: {
           basicsId: [
-            { required: true, message: '请输入卡券名', trigger: 'change' }
+            { required: true, message: '请输入卡券名', trigger: 'blur change' }
           ],
           cardVolumeNumber: [
             { required: true, message: '请输入张数', trigger: 'blur change' }
@@ -51,11 +53,13 @@
       this.getList()
     },
     methods: {
+      // 获取卡券信息列表
       getList () {
         getAllCardMessageList().then(res => {
           this.cardList = res.data.data
         })
       },
+      // 提交表单
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
@@ -72,11 +76,6 @@
       },
       modalCancel () {
         this.$refs['formValidate'].resetFields()
-      }
-    },
-    computed: {
-      isShow () {
-        return this.show
       }
     }
   }

@@ -36,6 +36,7 @@
     </div>
     <!--分页配置-->
     <PageM :total="total" :callback="setPage"/>
+    <!--增删改弹窗-->
     <Modal
       v-model="showModal"
       :title="`${showAdd ? '新增' : showEdit ? '编辑' : '删除'}优惠信息`"
@@ -61,10 +62,10 @@
 
 <script>
   import AddDiscounts from '@/views/DiscountsManage/DiscountsList/AddDiscounts'
+  import EditDiscounts from '@/views/DiscountsManage/DiscountsList/EditDiscounts'
   import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
   import { getDiscountsList, deleteDiscounts } from '@/api/discountsManage/DiscountsApi'
-  import EditDiscounts from '@/views/DiscountsManage/DiscountsList/EditDiscounts'
 
   export default {
     data () {
@@ -152,6 +153,7 @@
       this.getList()
     },
     methods: {
+      // 获取列表
       getList () {
         getDiscountsList({
           ...this.pages,
@@ -164,6 +166,7 @@
       saveAdd () {
         this.showAdd = false
       },
+      // 删除列表
       delDiscounts () {
         deleteDiscounts({
           id: this.discountId
@@ -174,6 +177,7 @@
           }
         })
       },
+      // 关闭弹窗
       closeModal () {
         this.showModal = false
         this.showAdd = false
@@ -181,9 +185,11 @@
         this.showDel = false
         this.getList()
       },
+      // 设置分页
       setPage (data) {
         this.pages = data
       },
+      // 搜索关键字
       clickSearch (data) {
         this.searchName = data
         this.getList()

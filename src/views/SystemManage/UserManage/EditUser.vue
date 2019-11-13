@@ -60,10 +60,10 @@
         },
         ruleValidate: {
           username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' }
+            { required: true, message: '请输入用户名', trigger: 'blur change' }
           ],
           phone: [
-            { required: true, message: '请输入手机号', trigger: 'blur' },
+            { required: true, message: '请输入手机号', trigger: 'blur change' },
             { validator: validatePhone, trigger: 'change blur' }
           ],
           roleId: [

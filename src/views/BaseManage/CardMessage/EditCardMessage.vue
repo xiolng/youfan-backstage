@@ -32,20 +32,22 @@
     },
     data () {
       return {
+        // form表单
         formValidate: {
           name: '',
           price: '',
           discountsNumber: '',
         },
+        // 表单验证
         ruleValidate: {
           name: [
-            { required: true, message: '请输入卡券名', trigger: 'blur' }
+            { required: true, message: '请输入卡券名', trigger: 'blur change' }
           ],
           price: [
-            { required: true, message: '请输入价格', trigger: 'blur' }
+            { required: true, message: '请输入价格', trigger: 'blur change' }
           ],
           discountsNumber: [
-            { required: true, message: '请输入张数', trigger: 'blur' }
+            { required: true, message: '请输入张数', trigger: 'blur change' }
           ],
         }
       }
@@ -54,6 +56,7 @@
       this.getDetail()
     },
     methods: {
+      // 获取详情
       getDetail () {
         getCardMessageDetail({ id: this.cardId }).then(res => {
           const data = res.data.data
@@ -62,6 +65,7 @@
           }
         })
       },
+      // 表单提交
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
@@ -82,11 +86,6 @@
       modalCancel () {
         this.$refs['formValidate'].resetFields()
         this.callback()
-      }
-    },
-    computed: {
-      isShow () {
-        return this.show
       }
     }
   }

@@ -1,8 +1,9 @@
 import Http from './Http'
+const BASE_URL = ``
 
-export const getMemberList = data => Http.post('/business/member/page', data)
+export const getMemberList = data => Http.post(`${BASE_URL}/business/member/page`, data)
 export const importMember = data => Http({
-  url: '/business/excelOperation/importMemberInfo',
+  url: `${BASE_URL}/business/excelOperation/importMemberInfo`,
   method: 'post',
   data,
   headers: {

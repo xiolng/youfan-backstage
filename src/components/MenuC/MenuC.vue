@@ -11,7 +11,7 @@
       @on-select="SelectMenu"
       @on-open-change="OpenMenu"
     >
-      <!--菜单循环-->
+      <!--菜单循环--目前只有两级菜单-->
       <Submenu
         v-for="item in menuList"
         :name="item.title"

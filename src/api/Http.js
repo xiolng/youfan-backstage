@@ -1,7 +1,8 @@
 import axios from 'axios'
-
+const BASE_URL = ''
 const Http = axios.create({
   timeout: 10000,
+  baseURL: BASE_URL
 })
 Http.interceptors.request.use(
   config => {

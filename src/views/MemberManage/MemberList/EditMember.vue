@@ -45,13 +45,13 @@
         },
         ruleValidate: {
           memberName: [
-            { required: true, message: '请输入会员名', trigger: 'blur' }
+            { required: true, message: '请输入会员名', trigger: 'blur change' }
           ],
           coupon: [
-            { required: true, message: '请输入卡券', trigger: 'change' }
+            { required: true, message: '请输入卡券', trigger: 'blur change' }
           ],
           count: [
-            { required: true, message: '请输入次数', trigger: 'change' }
+            { required: true, message: '请输入次数', trigger: 'blur change' }
           ],
         }
       }

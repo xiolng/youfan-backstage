@@ -125,14 +125,14 @@
         // 表单验证
         ruleValidate: {
           shopName: [
-            { required: true, message: '请输入商铺名', trigger: 'blur' }
+            { required: true, message: '请输入商铺名', trigger: 'blur change' }
           ],
           phone: [
-            { required: true, message: '请输入联系电话', trigger: 'blur' },
+            { required: true, message: '请输入联系电话', trigger: 'blur change' },
             { validator: validatePhone, trigger: 'change' }
           ],
           addressDetails: [
-            { required: true, message: '请输入地址', trigger: 'blur' }
+            { required: true, message: '请输入地址', trigger: 'blur change' }
           ],
         },
         // 显示定位弹窗
@@ -183,7 +183,6 @@
       },
       getImg (data) {
         this.formValidate.imageUrl = data
-        console.log(this.formValidate)
       },
       // 选择营业时间
       changeTime (data) {

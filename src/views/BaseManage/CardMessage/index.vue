@@ -46,6 +46,7 @@
       </Col>
     </Row>
 
+    <!--增删改弹窗-->
     <Modal
       v-model="showModal"
       :title="`${showAdd ? '新增' : showEdit ? '编辑' : '删除'}卡券`"
@@ -155,6 +156,7 @@
       this.getList()
     },
     methods: {
+      // 获取列表
       getList () {
         getCardMessageList({
           ...this.pages,
@@ -164,9 +166,11 @@
           this.total = res.data.total
         })
       },
+      // 保存增删改
       saveAdd () {
         this.showAdd = false
       },
+      // 删除列表
       delCard () {
         deleteCardMessage({ id: this.cardId }).then(res => {
           if (+res.data.code === 0) {
@@ -175,10 +179,12 @@
           }
         })
       },
+      // 设置分页
       setPage (data) {
         this.pages = data
         this.getList()
       },
+      // 关闭弹窗
       closeModal () {
         this.showModal = false
         this.showAdd = false
@@ -186,14 +192,10 @@
         this.showDel = false
         this.getList()
       },
+      // 搜索关键字
       clickSearch (data) {
         this.searchName = data
         this.getList()
-      },
-      exportsTable () {
-        this.$refs.table.exportCsv({
-          filename: '卡券列表'
-        })
       }
     },
     components: {

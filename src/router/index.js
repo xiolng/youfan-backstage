@@ -1,3 +1,15 @@
+/**
+ * 路由
+ * @path 路径
+ * @name 菜单名
+ * @component 页面
+ * @redirect 重定向
+ * @children 子级
+ * @meta{} 辅助信息
+ * @searchKey 页面搜索 搜索组件用 SearchC, 默认写为 页面模块名
+ * @type {*[]}
+ */
+
 const routes = [
   {
     path: '/',

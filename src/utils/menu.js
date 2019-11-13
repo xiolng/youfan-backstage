@@ -1,5 +1,5 @@
 /**
- * 菜单组合
+ * 菜单平级，组合成树结构
  * @param data
  * @returns {[]}
  */
@@ -25,6 +25,14 @@ export const treeMenu = data => {
   })
   return result
 }
+/**
+ * 菜单管理，根级目录 操作按钮 render渲染法
+ * @param h 标签
+ * @param root 数据根结构
+ * @param node 节点
+ * @param data 当前数据
+ * @returns {*}
+ */
 export const rootFun = function (h, { root, node, data }) {
   const vm = this
   // root 根级目录
@@ -66,7 +74,14 @@ export const rootFun = function (h, { root, node, data }) {
     ])
   ])
 }
-// 菜单操作按钮组，
+/**
+ * 菜单管理，树结构菜单，操作按钮 render方法
+ * @param h
+ * @param root
+ * @param node
+ * @param data
+ * @returns {boolean|*}
+ */
 export const renderContent = function (h, { root, node, data }) {
   const vm = this
   return h('span', {

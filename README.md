@@ -23,49 +23,25 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 # 目录
-```
+```vue
 |-- youfan-backstage
-    |-- .babelrc babel配置
+    |-- .babelrc
     |-- .browserslistrc
-    |-- .editorconfig 编辑配置
-    |-- .eslintrc.js eslint配置
-    |-- .gitignore 提交黑名单
+    |-- .editorconfig
+    |-- .eslintrc.js  --> 代码检查
+    |-- .gitignore  --> 打包去除文件
     |-- babel.config.js
     |-- package-lock.json
     |-- package.json
     |-- postcss.config.js
     |-- README.md
-    |-- vue.config.js 框架配置
-    |-- .idea
-    |   |-- misc.xml
-    |   |-- modules.xml
-    |   |-- vcs.xml
-    |   |-- workspace.xml
-    |   |-- youfan-backstage.iml
-    |   |-- codeStyles
-    |   |   |-- codeStyleConfig.xml
-    |   |   |-- Project.xml
-    |   |-- inspectionProfiles
-    |       |-- Project_Default.xml
-    |-- dist  打包文件夹
+    |-- vue.config.js  --> vue打包工具配置
+    |-- dist   --> 打包文件夹
     |   |-- favicon.ico
     |   |-- index.html
     |   |-- css
     |   |   |-- app.6c494615.css
-    |   |   |-- chunk-0512c2c4.408783ba.css
-    |   |   |-- chunk-099a981e.f19e23f9.css
-    |   |   |-- chunk-09f1e672.e103c15f.css
-    |   |   |-- chunk-16666b82.bd9b9e2b.css
-    |   |   |-- chunk-281741ec.491505fe.css
-    |   |   |-- chunk-5897f44e.525331ab.css
-    |   |   |-- chunk-5ae686e8.e126cd50.css
-    |   |   |-- chunk-60316756.317e956a.css
-    |   |   |-- chunk-619c0a88.901c9a33.css
-    |   |   |-- chunk-813bec6c.475501cc.css
-    |   |   |-- chunk-ba55cff2.a5bbd2e1.css
-    |   |   |-- chunk-ddcf3970.82bc5b61.css
-    |   |   |-- chunk-e7b278a4.471fb959.css
-    |   |   |-- chunk-vendors.09392f20.css
+    |   |   |-- chunk-1003ba7d.0f31820a.css
     |   |-- fonts
     |   |   |-- ionicons.143146fa.woff2
     |   |   |-- ionicons.99ac3308.woff
@@ -73,58 +49,53 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     |   |-- img
     |   |   |-- ionicons.a2c4a261.svg
     |   |   |-- logo.82b9c7a5.png
+    |   |   |-- qr.f87bb9e0.png
     |   |-- js
-    |       |-- app.0ebaed20.js
-    |       |-- chunk-0512c2c4.09f6f5cd.js
-    |       |-- chunk-099a981e.8a0d583b.js
-    |       |-- chunk-09f1e672.00799aa3.js
-    |       |-- chunk-16666b82.8179815c.js
-    |       |-- chunk-281741ec.1e0ad217.js
-    |       |-- chunk-2d0ac07d.6fee4a93.js
-    |       |-- chunk-2d0c4bf9.9b46872b.js
-    |       |-- chunk-2d0e4cdb.6bb1a1ef.js
-    |       |-- chunk-2d208c0e.345f5e86.js
-    |       |-- chunk-5897f44e.09c45f47.js
-    |       |-- chunk-5ae686e8.3fcc9773.js
-    |       |-- chunk-60316756.524194c9.js
-    |       |-- chunk-619c0a88.54af6d26.js
-    |       |-- chunk-813bec6c.d85c27b3.js
-    |       |-- chunk-ba55cff2.89d9c15c.js
-    |       |-- chunk-ddcf3970.534ef115.js
-    |       |-- chunk-e7b278a4.36aa0b39.js
-    |       |-- chunk-vendors.2c3f897f.js
-    |-- public 静态文件夹
+    |       |-- app.a2ec9104.js
+    |       |-- chunk-1003ba7d.3d482cf9.js
+    |       |-- chunk-vendors.2815920f.js
+    |-- public  --> 静态文件，index
     |   |-- favicon.ico
     |   |-- index.html
-    |-- src 
-        |-- App.vue 全局路由分布页面
-        |-- main.js 全局配置
-        |-- api 接口
-        |   |-- index.js
+    |-- src  --> 开发文件
+        |-- App.vue
+        |-- main.js
+        |-- api  --> 接口
+        |   |-- CardManageApi.js
+        |   |-- Http.js
         |   |-- login.js
+        |   |-- MemberApi.js
+        |   |-- ShopApi.js
+        |   |-- baseManage
+        |   |   |-- CardMessageApi.js
+        |   |-- discountsManage
+        |   |   |-- DiscountsApi.js
+        |   |-- payManage
+        |   |   |-- PayList.js
         |   |-- systemManage
         |       |-- menu.js
         |       |-- role.js
         |       |-- user.js
-        |-- assets 资源
+        |-- assets   --> 静态文件
         |   |-- logo.png
-        |-- components 公共组件
-        |   |-- Breadcrumbs
-        |   |   |-- index.vue
-        |   |-- FullScreen
-        |   |   |-- index.vue
-        |   |-- Menus
-        |   |   |-- index.vue
-        |   |-- PageM
-        |   |   |-- PageM.vue
+        |   |-- qr.png
+        |-- components  --> 公共组件
+        |   |-- BreadcrumbC
+        |   |   |-- BreadcrumbC.vue
+        |   |-- FullScreenC
+        |   |   |-- FullScreenC.vue
+        |   |-- MenuC
+        |   |   |-- MenuC.vue
+        |   |-- PageC
+        |   |   |-- PageC.vue
         |   |-- SearchC
-        |   |   |-- index.vue
+        |   |   |-- SearchC.vue
         |   |   |-- searchSelectList.js
-        |   |-- Users
-        |       |-- index.vue
-        |-- router 路由json
+        |   |-- UserC
+        |       |-- UserC.vue
+        |-- router  --> 路由
         |   |-- index.js
-        |-- store vuex
+        |-- store  --> vuex
         |   |-- index.js
         |   |-- menu.js
         |   |-- global
@@ -133,19 +104,29 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         |       |-- index.js
         |       |-- mutations-type.js
         |       |-- mutations.js
-        |-- utils 公共js
+        |-- utils  --> 工具
         |   |-- index.js
         |   |-- menu.js
-        |-- views page页面
+        |-- views  --> 项目 页面 分组
+            |-- BaseManage
+            |   |-- index.vue
+            |   |-- CardMessage
+            |       |-- AddCardMessage.vue
+            |       |-- EditCardMessage.vue
+            |       |-- index.vue
             |-- CardManage
             |   |-- index.vue
             |   |-- CardList
-            |       |-- EditCard.vue
+            |   |   |-- AddCard.vue
+            |   |   |-- ExportCard.vue
+            |   |   |-- index.vue
+            |   |-- CardSearch
             |       |-- index.vue
             |-- DiscountsManage
             |   |-- index.vue
             |   |-- DiscountsList
             |       |-- AddDiscounts.vue
+            |       |-- EditDiscounts.vue
             |       |-- index.vue
             |-- LayoutModule
             |   |-- index.vue
@@ -166,8 +147,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
             |   |   |-- index.vue
             |   |-- ShopList
             |       |-- AddShop.vue
+            |       |-- EditShop.vue
             |       |-- index.vue
             |       |-- LocationMap.vue
+            |       |-- UploadImg.vue
             |-- SystemManage
                 |-- index.vue
                 |-- MenuManage

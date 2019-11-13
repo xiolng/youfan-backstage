@@ -3,6 +3,7 @@
   <div class="search-box">
     <Row type="flex" justify="start" :gutter="10">
       <Col>
+        <!--搜索输入框-->
         <Input
           v-model="searchName"
           :placeholder="placeholder"
@@ -11,12 +12,14 @@
           @on-enter="$emit('get-list', searchData())"
           @on-clear="$emit('get-list', searchData())"
         >
+          <!--搜索关键字选择-->
           <Select v-model="selectKey" slot="prepend" style="width: 100px;">
             <Option v-for="item in selectList" :key="item.key" :value="item.key">{{item.name}}</Option>
           </Select>
         </Input>
       </Col>
       <Col>
+        <!--搜索按钮-->
         <Button type="primary" icon="ios-search"
                 @click="$emit('get-list', searchData())">搜索
         </Button>
@@ -26,7 +29,7 @@
 </template>
 
 <script>
-  import searchSelectList from '@/components/SearchC/searchSelectList'
+  import searchSelectList from '@/components/SearchC/searchSelectList' // 搜索关键字列表
 
   export default {
     props: {
@@ -46,14 +49,16 @@
       this.selectList = searchSelectList[this.pageName]
     },
     methods: {
+      // 搜索返回
       searchData () {
+        if (!this.searchName) return null
         let data = {}
         data[this.selectKey] = this.searchName
-        console.log('search', data)
         return data
       }
     },
     computed: {
+      // 监听所在页面，返回此页面搜索关键字
       placeholder () {
         let list = 0
         searchSelectList[this.pageName].map((v, index) => {

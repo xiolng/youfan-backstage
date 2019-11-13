@@ -33,7 +33,11 @@
   import AddMenu from '@/views/SystemManage/MenuManage/AddMenu'
   import EditMenu from '@/views/SystemManage/MenuManage/EditMenu'
   import { deleteMenu, getMenuList } from '@/api/systemManage/menu'
-  import { treeMenu, rootFun, renderContent } from '@/utils/menu'
+  import {
+    treeMenu, // 组合平级菜单数组
+    rootFun, // 根级目录渲染
+    renderContent // 树结构菜单按钮渲染
+  } from '@/utils/menu'
 
   export default {
     data () {

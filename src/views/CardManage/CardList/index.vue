@@ -39,9 +39,10 @@
       </Col>
     </Row>
 
+    <!--生成导出卡券-->
     <Modal
       v-model="showModal"
-      :title="`生成卡券`"
+      :title="`${showAdd ? '生成' : '导出'}卡券`"
       footer-hide
       @on-cancel="closeModal"
     >
@@ -55,7 +56,7 @@
 
 <script>
   import AddCard from '@/views/CardManage/CardList/AddCard' // 分页
-  import ExportCard from '@/views/CardManage/CardList/ExportCard'
+  import ExportCard from '@/views/CardManage/CardList/ExportCard' // 导出卡券
   import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC'
   import { getCardList } from '@/api/CardManageApi'
@@ -66,23 +67,30 @@
         columns1: [
           {
             title: '卡券名',
-            key: 'basicsName'
+            key: 'basicsName',
+            minWidth: 120,
+            ellipsis: true,
+            tooltip: true
           },
           {
             title: '价格',
-            key: 'basicsPrice'
+            key: 'basicsPrice',
+            minWidth: 120
           },
           {
             title: '总张数',
-            key: 'sum'
+            key: 'sum',
+            minWidth: 120
           },
           {
             title: '未使用张数',
-            key: 'sumUnused'
+            key: 'sumUnused',
+            minWidth: 120
           },
           {
             title: '已使用张数',
-            key: 'sumUsed'
+            key: 'sumUsed',
+            minWidth: 120
           }
         ],
         data1: [],
@@ -122,11 +130,6 @@
       clickSearch (data) {
         this.searchName = data
         this.getList()
-      },
-      exportsTable () {
-        this.$refs.table.exportCsv({
-          filename: '卡券列表'
-        })
       }
     },
     components: {

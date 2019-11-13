@@ -32,11 +32,13 @@
       }
     },
     methods: {
+      // 设置分页
       setCurrent (data) {
         this.pages.current = data
         this.callData.beginPage = data
         this.callback(this.callData)
       },
+      // 每页数量
       setLimit (data) {
         this.pages.limit = data
         this.callData.limit = data

@@ -35,18 +35,20 @@
     },
     data () {
       return {
+        // form表单
         formValidate: {
           discountName: '',
           discountDetails: '',
           discountRule: '',
           remarks: '',
         },
+        // 表单验证
         ruleValidate: {
           discountName: [
-            { required: true, message: '请输入优惠名', trigger: 'blur' }
+            { required: true, message: '请输入优惠名', trigger: 'blur change' }
           ],
           discountDetails: [
-            { required: true, message: '请输入优惠信息', trigger: 'change' }
+            { required: true, message: '请输入优惠信息', trigger: 'blur change' }
           ]
         }
       }
