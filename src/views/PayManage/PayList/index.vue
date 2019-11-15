@@ -92,6 +92,7 @@
       },
       clickSearch (data) {
         this.searchName = data
+        this.pages.beginPage = 1
         this.getList()
       },
       setPage (data) {

@@ -29,7 +29,7 @@ module.exports = {
     port: '4444',
     proxy: {
       '/*': {
-        target: 'http://192.168.1.171'
+        target: 'http://jiadacc.com:81'
       },
     }
   }

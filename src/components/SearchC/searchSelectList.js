@@ -45,6 +45,13 @@ const searchSelectList = {
       name: '商铺名'
     }
   ],
+  // 权益券管理
+  EquityList: [
+    {
+      key: 'equityName',
+      name: '权益券名'
+    }
+  ],
   // 优惠管理
   DiscountsList: [
     {

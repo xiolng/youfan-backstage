@@ -190,14 +190,14 @@ export const renderContent = function (h, { root, node, data }) {
               },
               style: {
                 cursor: 'pointer',
-                visibility: !data.children ? 'hidden' : 'initial'
+                visibility: (!data.children && +data.parentId !== 0) ? 'hidden' : 'initial'
               }
             }, [
               h('Button', {
                 props: {
                   type: 'text',
                   icon: 'md-add',
-                  disabled: !data.children
+                  disabled: (!data.children && +data.parentId !== 0)
                 },
                 on: {
                   click () {

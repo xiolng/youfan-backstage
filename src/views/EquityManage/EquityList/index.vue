@@ -1,5 +1,5 @@
 <template>
-  <div class="Shop-box">
+  <div class="Equity-box">
     <!--搜索，新增-->
     <Row type="flex" justify="space-between">
       <Col>
@@ -21,13 +21,13 @@
         <!--操作-->
         <template slot-scope="{row}" slot="action">
           <Tooltip content="编辑" placement="top" transfer>
-            <div class="icons" @click="shopId = row.id, showModal = true, showEdit = true">
+            <div class="icons" @click="EquityId = row.id, showModal = true, showEdit = true">
               <Icon type="md-create" size="16"></Icon>
             </div>
 
           </Tooltip>
           <Tooltip content="删除" placement="top" transfer>
-            <div @click="shopId = row.id, showModal = true, showDel = !showDel">
+            <div @click="EquityId = row.id, showModal = true, showDel = !showDel">
               <Icon type="ios-trash" size="18"></Icon>
             </div>
           </Tooltip>
@@ -37,16 +37,17 @@
     <!--分页配置-->
     <PageM :total="total" :callback="setPage"/>
     <Modal
+      width="552"
       v-model="showModal"
-      :title="`${showAdd ? '新增' : showEdit ? '编辑' : '删除'}商铺`"
+      :title="`${showAdd ? '新增' : showEdit ? '编辑' : '删除'}权益券`"
       :footer-hide="!showDel"
       @on-cancel="closeModal"
-      @on-ok="showDel ? delShop() : ''"
+      @on-ok="showDel ? delEquity() : ''"
     >
-      <!--新增商铺-->
-      <AddShop :callback="closeModal" v-if="showAdd"></AddShop>
-      <EditShop :shop-id="shopId" :callback="closeModal" v-if="showEdit"></EditShop>
-      <!--删除商铺-->
+      <!--新增权益券-->
+      <AddEquity :callback="closeModal" v-if="showAdd"></AddEquity>
+      <EditEquity :equity-id="EquityId" :callback="closeModal" v-if="showEdit"></EditEquity>
+      <!--删除权益券-->
       <Row type="flex" justify="center" align="middle" :gutter="10" v-if="showDel">
         <Col>
           <Icon type="md-alert" color="#f90" size="30"></Icon>
@@ -60,72 +61,87 @@
 </template>
 
 <script>
-  import AddShop from '@/views/ShopManage/ShopList/AddShop'
-  import EditShop from '@/views/ShopManage/ShopList/EditShop'
+  import AddEquity from '@/views/EquityManage/EquityList/AddEquity'
+  import EditEquity from '@/views/EquityManage/EquityList/EditEquity'
   import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getShopList, deleteShop } from '@/api/ShopApi'
+  import { getEquityList, deleteEquity } from '@/api/EquityApi'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '商铺名',
+            title: '权益券名',
+            key: 'equityName',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '关联商铺',
             key: 'shopName',
             ellipsis: true,
-            minWidth: 150,
-            tooltip: true
-          },
-          {
-            title: '联系电话',
-            key: 'phone',
-            ellipsis: true,
             minWidth: 130,
-            tooltip: true
-          },
-          {
-            title: '地址',
-            key: 'addressDetails',
-            ellipsis: true,
-            minWidth: 150,
-            tooltip: true
-          },
-          {
-            title: '营业时间',
-            key: 'beginTime',
-            minWidth: 110,
             render (h, params) {
               return h('Tooltip', {
                 props: {
-                  content: `${params.row.beginTime} -- ${params.row.endTime}`,
-                  transfer: true
+                  transfer: true,
+                  maxWidth: 300,
+                  theme: 'light'
                 }
               }, [
-                h('span', params.row.beginTime),
-                h('span', ' -- '),
-                h('span', params.row.endTime)
+                h('template', {
+                    slot: 'content',
+                  },
+                  [
+                    h('div', {
+                      style: {
+                        height: '300px',
+                        overflow: 'hidden',
+                        overflowY: 'auto'
+                      }
+                    }, params.row.shopName.map(v => h('Tag', {
+                      props: {
+                        // type: 'border',
+                        color: 'warning'
+                      }
+                    }, v)))
+                  ]
+                ),
+                h('div', {
+                  style: {
+                    maxWidth: '130px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }
+                }, [
+                  params.row.shopName.map(v => h('span', `${v},`))
+                ])
               ])
             }
           },
           {
-            title: '优惠信息',
-            key: 'discountName',
-            minWidth: 200,
-            tooltip: true,
-            render (h, params) {
-              return h('div', {
-                },
-                [
-                  params.row.discountName.map(v => h('Tag', {
-                    props: {
-                      type: 'border',
-                      color: 'orange'
-                    }
-                  }, `${v}`))
-                ]
-              )
-            }
+            title: '权益详情',
+            key: 'equityDetails',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
+            title: '库存',
+            key: 'stock',
+            minWidth: 100
+          },
+          {
+            title: '价格',
+            key: 'price',
+            minWidth: 100,
+          },
+          {
+            title: '已售',
+            key: 'salesCount',
+            minWidth: 100,
           },
           {
             title: '创建人',
@@ -174,7 +190,7 @@
           limit: 10
         },
         searchName: {},
-        shopId: ''
+        EquityId: ''
       }
     },
     beforeMount () {
@@ -183,7 +199,7 @@
     methods: {
       // 获取列表
       getList () {
-        getShopList({
+        getEquityList({
           ...this.pages,
           ...this.searchName
         }).then(res => {
@@ -192,8 +208,8 @@
         })
       },
       // 删除列表
-      delShop () {
-        deleteShop({ id: this.shopId }).then(res => {
+      delEquity () {
+        deleteEquity({ id: this.EquityId }).then(res => {
           if (+res.data.code === 0) {
             this.$Message.success('删除成功')
             this.closeModal()
@@ -203,7 +219,7 @@
       // 跳转分页
       setPage (data) {
         this.pages = data
-        this.getList(this.pages, this.searchName)
+        this.getList()
       },
       // 关闭弹窗
       closeModal () {
@@ -217,12 +233,12 @@
       clickSearch (data) {
         this.searchName = data
         this.pages.beginPage = 1
-        this.getList(this.pages, this.searchName)
+        this.getList()
       }
     },
     components: {
-      AddShop,
-      EditShop,
+      AddEquity,
+      EditEquity,
       SearchC,
       PageM
     }

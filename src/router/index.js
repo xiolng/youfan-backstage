@@ -115,6 +115,23 @@ const routes = [
         ]
       },
       {
+        path: 'equity',
+        name: '权益券管理',
+        icon: 'md-bonfire',
+        component: () => import('@/views/EquityManage'),
+        redirect: { name: '权益券列表' },
+        children: [
+          {
+            path: 'equityList',
+            name: '权益券列表',
+            component: () => import('@/views/EquityManage/EquityList'),
+            meta: {
+              searchKey: 'EquityList'
+            }
+          }
+        ]
+      },
+      {
         path: 'discounts',
         name: '优惠管理',
         icon: 'md-pricetags',

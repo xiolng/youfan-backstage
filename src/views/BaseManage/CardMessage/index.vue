@@ -195,6 +195,7 @@
       // 搜索关键字
       clickSearch (data) {
         this.searchName = data
+        this.pages.beginPage = 1
         this.getList()
       }
     },

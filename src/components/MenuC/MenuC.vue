@@ -12,29 +12,42 @@
       @on-open-change="OpenMenu"
     >
       <!--菜单循环--目前只有两级菜单-->
-      <Submenu
+      <template
         v-for="item in menuList"
-        :name="item.title"
-        :key="item.title"
       >
-        <template slot="title">
-          <Icon :type="item.icon"></Icon>
-          <span>{{item.title}}</span>
-        </template>
-        <!--二级菜单-->
-        <MenuItem
-          v-for="list in item.children"
-          :name="list.title"
-          :key="list.title"
-          :to="{path: `/${item.path}/${list.path}`}"
-          class="side-item"
+        <Submenu
+          :name="item.title"
+          :key="item.title"
+          v-if="item.children"
         >
+          <template slot="title">
+            <Icon :type="item.icon"></Icon>
+            <span>{{item.title}}</span>
+          </template>
+          <!--二级菜单-->
+          <MenuItem
+            v-for="list in item.children"
+            :name="list.title"
+            :key="list.title"
+            :to="{path: `/${item.path}/${list.path}`}"
+            class="side-item"
+          >
           <span>
             <Icon :type="list.icon" color="#ccc"></Icon>
             {{list.title}}
           </span>
+          </MenuItem>
+        </Submenu>
+        <MenuItem
+          :name="item.title"
+          :key="item.title"
+          :to="{path: `/${item.path}`}"
+          v-if="!item.children"
+        >
+          <Icon :type="item.icon" color="#ccc"></Icon>
+          {{item.title}}
         </MenuItem>
-      </Submenu>
+      </template>
     </Menu>
   </div>
 </template>
