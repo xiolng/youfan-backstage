@@ -129,7 +129,6 @@
   import UploadImg from '@/views/ShopManage/ShopList/UploadImg'
   import { editShopDetail, getShopDetail, uploadCardImg } from '@/api/ShopApi'
   import { getAllDiscounts } from '@/api/discountsManage/DiscountsApi' // 优惠信息
-  import { validatePhone } from '@/utils'
   import qrImg from '@/assets/qr.png'
 
   export default {
@@ -138,6 +137,14 @@
       callback: Function
     },
     data () {
+      const isNumber = (rule, value, callback) => {
+        const valid = /^\d+$/
+        if (valid.test(+value)) {
+          callback()
+        } else {
+          callback(new Error('请输入手机号或者座机号'))
+        }
+      }
       return {
         // 表单
         formValidate: {
@@ -161,8 +168,7 @@
             { required: true, message: '请输入商铺名', trigger: 'blur change' }
           ],
           phone: [
-            { required: true, message: '请输入联系电话', trigger: 'blur change' },
-            { validator: validatePhone, trigger: 'change' }
+            { validator: isNumber, trigger: 'change' }
           ],
           addressDetails: [
             { required: true, message: '请输入地址', trigger: 'blur change' }
