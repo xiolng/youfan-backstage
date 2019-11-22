@@ -130,6 +130,11 @@
             tooltip: true
           },
           {
+            title: '次数',
+            key: 'number',
+            minWidth: 100
+          },
+          {
             title: '库存',
             key: 'stock',
             minWidth: 100

@@ -26,11 +26,11 @@
             </div>
 
           </Tooltip>
-          <Tooltip content="删除" placement="top" transfer>
-            <div @click="shopId = row.id, showModal = true, showDel = !showDel">
-              <Icon type="ios-trash" size="18"></Icon>
-            </div>
-          </Tooltip>
+          <!--<Tooltip content="删除" placement="top" transfer>-->
+          <!--  <div @click="shopId = row.id, showModal = true, showDel = !showDel">-->
+          <!--    <Icon type="ios-trash" size="18"></Icon>-->
+          <!--  </div>-->
+          <!--</Tooltip>-->
         </template>
       </Table>
     </div>

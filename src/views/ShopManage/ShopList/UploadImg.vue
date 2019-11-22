@@ -11,10 +11,21 @@
             <img v-if="item" :src="item" alt=""/>
             <div class="img-modal">
               <div class="img-btn" @click="showImg(index)">
-                <Icon type="md-eye"></Icon>
+                <Tooltip
+                  content="查看"
+                  placement="top"
+                  transfer
+                >
+                  <Icon type="md-eye"></Icon>
+                </Tooltip>
               </div>
               <div class="img-btn" @click="delImg(index)">
-                <Icon type="md-trash"></Icon>
+                <Tooltip
+                  content="删除"
+                  transfer
+                >
+                  <Icon type="md-trash"></Icon>
+                </Tooltip>
               </div>
             </div>
           </Col>
@@ -146,6 +157,7 @@
         flex-direction column
         justify-content center
         color #fff
+        overflow hidden
 
         &:first-child
           border-bottom 1px solid #eee

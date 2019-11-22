@@ -28,8 +28,11 @@ module.exports = {
     // disableHostCheck: true,
     port: '4444',
     proxy: {
+      // '/*': {
+      //   target: 'http://jiadacc.com:81'
+      // },
       '/*': {
-        target: 'http://jiadacc.com:81'
+        target: 'http://192.168.1.171:81'
       },
     }
   }

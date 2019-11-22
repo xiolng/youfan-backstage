@@ -136,9 +136,12 @@
         vertical-align middle
 
     .layouts-content
+      max-height calc(100vh - 106px)
       min-width 920px
       margin 20px
       background #fff
       padding 20px
+      overflow-x hidden
+      overflow-y auto
 
 </style>

@@ -8,6 +8,9 @@
         <FormItem label="库存" prop="stock">
           <Input v-model="formValidate.stock" placeholder="请输入库存"/>
         </FormItem>
+        <FormItem label="次数" prop="number">
+          <Input v-model="formValidate.number" placeholder="请输入次数"/>
+        </FormItem>
         <FormItem label="关联商铺">
           <Transfer
             :titles="['未选择商铺','已选择商铺']"
@@ -77,7 +80,8 @@
           shopId: [],
           imageUrl: [],
           equityDetails: '',
-          coverPath: ''
+          coverPath: '',
+          number: ''
         },
         // 表单验证
         ruleValidate: {
@@ -86,6 +90,9 @@
           ],
           stock: [
             { required: true, message: '请输入库存', trigger: 'blur' },
+          ],
+          number: [
+            { required: true, message: '请输入次数', trigger: 'blur' },
           ],
           price: [
             { required: true, message: '请输入价格', trigger: 'blur' }
