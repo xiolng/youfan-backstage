@@ -75,7 +75,8 @@
             key: 'shopName',
             ellipsis: true,
             minWidth: 150,
-            tooltip: true
+            tooltip: true,
+            fixed: 'left'
           },
           {
             title: '联系电话',
@@ -113,18 +114,46 @@
             key: 'discountName',
             minWidth: 200,
             tooltip: true,
+            ellipsis: true,
             render (h, params) {
-              return h('div', {
-                },
-                [
-                  params.row.discountName.map(v => h('Tag', {
-                    props: {
-                      type: 'border',
-                      color: 'orange'
-                    }
-                  }, `${v}`))
-                ]
-              )
+              const discountName = params.row.discountName
+              return h('Tooltip', {
+                props: {
+                  transfer: true,
+                  maxWidth: 300,
+                  theme: 'light'
+                }
+              }, [
+                h('template', {
+                    slot: 'content',
+                  },
+                  [
+                    h('div', {
+                      style: {
+                        maxHeight: '300px',
+                        overflow: 'hidden',
+                        overflowY: 'auto',
+                        whiteSpace: 'normal',
+                        wordWrap: 'normal'
+                      }
+                    }, discountName && discountName.map(v => h('Tag', {
+                      props: {
+                        // type: 'border',
+                        color: 'warning'
+                      }
+                    }, v)))
+                  ]
+                ),
+                h('div', {
+                  style: {
+                    maxWidth: '130px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }
+                }, [
+                  discountName && discountName.map((v, index) => h('span', `${v}${index >= discountName.length - 1 ? '' : ','}`))
+                ])
+              ])
             }
           },
           {
@@ -203,7 +232,7 @@
       // 跳转分页
       setPage (data) {
         this.pages = data
-        this.getList(this.pages, this.searchName)
+        this.getList()
       },
       // 关闭弹窗
       closeModal () {
@@ -217,7 +246,7 @@
       clickSearch (data) {
         this.searchName = data
         this.pages.beginPage = 1
-        this.getList(this.pages, this.searchName)
+        this.getList()
       }
     },
     components: {

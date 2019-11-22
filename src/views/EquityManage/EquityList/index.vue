@@ -76,7 +76,8 @@
             key: 'equityName',
             ellipsis: true,
             minWidth: 150,
-            tooltip: true
+            tooltip: true,
+            fixed: 'left'
           },
           {
             title: '关联商铺',

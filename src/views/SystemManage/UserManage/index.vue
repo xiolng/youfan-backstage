@@ -78,7 +78,8 @@
             key: 'username',
             ellipsis: true,
             minWidth: 150,
-            tooltip: true
+            tooltip: true,
+            fixed: 'left'
           },
           {
             title: '角色',

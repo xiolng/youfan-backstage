@@ -76,7 +76,8 @@
             key: 'discountName',
             ellipsis: true,
             minWidth: 150,
-            tooltip: true
+            tooltip: true,
+            fixed: 'left'
           },
           {
             title: '优惠信息',
@@ -188,6 +189,7 @@
       // 设置分页
       setPage (data) {
         this.pages = data
+        this.getList()
       },
       // 搜索关键字
       clickSearch (data) {

@@ -77,7 +77,8 @@
             key: 'roleName',
             ellipsis: true,
             minWidth: 150,
-            tooltip: true
+            tooltip: true,
+            fixed: 'left'
           },
           {
             title: '更新时间',
