@@ -165,13 +165,13 @@
         // 表单验证
         ruleValidate: {
           shopName: [
-            { required: true, message: '请输入商铺名', trigger: 'blur change' }
+            { required: true, message: '请输入商铺名', trigger: 'blur' }
           ],
           phone: [
             { validator: isNumber, trigger: 'change' }
           ],
           addressDetails: [
-            { required: true, message: '请输入地址', trigger: 'blur change' }
+            { required: true, message: '请输入地址', trigger: 'blur' }
           ],
         },
         // 地图弹窗

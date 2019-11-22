@@ -82,13 +82,13 @@
         // 表单验证
         ruleValidate: {
           equityName: [
-            { required: true, message: '请输入权益券名', trigger: 'blur change' }
+            { required: true, message: '请输入权益券名', trigger: 'blur' }
           ],
           stock: [
-            { required: true, message: '请输入库存', trigger: 'blur change' },
+            { required: true, message: '请输入库存', trigger: 'blur' },
           ],
           price: [
-            { required: true, message: '请输入价格', trigger: 'blur change' }
+            { required: true, message: '请输入价格', trigger: 'blur' }
           ],
         },
         // 关联商铺

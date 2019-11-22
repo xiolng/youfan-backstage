@@ -45,10 +45,10 @@
         // 表单验证
         ruleValidate: {
           discountName: [
-            { required: true, message: '请输入优惠名', trigger: 'blur change' }
+            { required: true, message: '请输入优惠名', trigger: 'blur' }
           ],
           discountDetails: [
-            { required: true, message: '请输入优惠信息', trigger: 'blur change' }
+            { required: true, message: '请输入优惠信息', trigger: 'blur' }
           ]
         }
       }

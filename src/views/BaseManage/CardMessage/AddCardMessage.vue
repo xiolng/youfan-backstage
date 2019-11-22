@@ -41,13 +41,13 @@
         // 表单验证
         ruleValidate: {
           name: [
-            { required: true, message: '请输入卡券名', trigger: 'blur change' }
+            { required: true, message: '请输入卡券名', trigger: 'blur' }
           ],
           price: [
-            { required: true, message: '请输入价格', trigger: 'blur change' }
+            { required: true, message: '请输入价格', trigger: 'blur' }
           ],
           discountsNumber: [
-            { required: true, message: '请输入张数', trigger: 'blur change' }
+            { required: true, message: '请输入张数', trigger: 'blur' }
           ],
         }
       }

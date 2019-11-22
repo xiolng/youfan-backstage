@@ -101,7 +101,7 @@
                         overflow: 'hidden',
                         overflowY: 'auto'
                       }
-                    }, params.row.shopName.map(v => h('Tag', {
+                    }, params.row.shopName && params.row.shopName.map(v => h('Tag', {
                       props: {
                         // type: 'border',
                         color: 'warning'
@@ -116,7 +116,7 @@
                     textOverflow: 'ellipsis'
                   }
                 }, [
-                  params.row.shopName.map(v => h('span', `${v},`))
+                  params.row.shopName && params.row.shopName.map(v => h('span', `${v},`))
                 ])
               ])
             }

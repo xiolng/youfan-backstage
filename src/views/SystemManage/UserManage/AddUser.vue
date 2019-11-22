@@ -63,11 +63,11 @@
         // 表单验证
         ruleValidate: {
           username: [
-            { required: true, message: '请输入用户名', trigger: 'blur change' }
+            { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
           phone: [
-            { required: true, message: '请输入手机号', trigger: 'blur change' },
-            { validator: validatePhone, trigger: 'change blur' }
+            { required: true, message: '请输入手机号', trigger: 'blur' },
+            { validator: validatePhone, trigger: 'change' }
           ],
           roleId: [
             { required: true, message: '请选择角色', trigger: 'change' }

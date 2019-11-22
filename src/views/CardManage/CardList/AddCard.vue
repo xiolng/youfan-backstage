@@ -40,10 +40,10 @@
         // 表单验证
         ruleValidate: {
           basicsId: [
-            { required: true, message: '请输入卡券名', trigger: 'blur change' }
+            { required: true, message: '请输入卡券名', trigger: 'blur' }
           ],
           cardVolumeNumber: [
-            { required: true, message: '请输入张数', trigger: 'blur change' }
+            { required: true, message: '请输入张数', trigger: 'blur' }
           ],
         },
         cardList: []
