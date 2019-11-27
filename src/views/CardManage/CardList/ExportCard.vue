@@ -11,7 +11,11 @@
         </Select>
       </FormItem>
       <FormItem label="张" prop="cardVolumeNumber">
-        <Input v-model="formValidate.cardVolumeNumber" placeholder="请输入张数"/>
+        <Input
+          type="number"
+          v-model="formValidate.cardVolumeNumber"
+          placeholder="请输入大于等于1的整数数字"
+        />
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">
@@ -48,7 +52,7 @@
             { required: true, message: '请输入卡券名', trigger: 'blur' }
           ],
           cardVolumeNumber: [
-            { required: true, message: '请输入张数', trigger: 'blur' }
+            { required: true, message: '请输入大于等于1的整数数字', trigger: 'blur' }
           ],
         },
         cardList: [],
@@ -69,11 +73,16 @@
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
+            if (+this.formValidate.cardVolumeNumber < 1) {
+              this.$Message.error('请输入大于等于1的整数数字')
+              return false
+            }
             let activeId = this.listNum.filter(v => v.id === this.formValidate.basicsId)
             if (+activeId[0].sumUnused <= (+this.formValidate.cardVolumeNumber + 1)) {
               this.$Message.error('卡券不足，请重新生成卡券')
               return false
             }
+            this.formValidate.cardVolumeNumber = Math.floor(this.formValidate.cardVolumeNumber)
             cardExport(this.formValidate).then(res => {
               if (res.data) {
                 this.exportCard({

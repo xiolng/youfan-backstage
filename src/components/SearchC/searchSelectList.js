@@ -27,7 +27,7 @@ const searchSelectList = {
   // 卡券管理
   CardList: [
     {
-      key: 'cardName',
+      key: 'basicsName',
       name: '卡券名'
     }
   ],

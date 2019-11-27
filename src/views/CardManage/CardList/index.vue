@@ -115,6 +115,7 @@
           ...this.searchName
         }).then(res => {
           this.data1 = res.data.data
+          this.total = res.data.total
         })
       },
       setPage (data) {
@@ -132,6 +133,7 @@
         this.pages.beginPage = 1
         this.getList()
       },
+      // 导出 判断张数是否足够
       listNum () {
         const list = []
         this.data1.map(v => {

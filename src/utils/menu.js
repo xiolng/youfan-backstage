@@ -91,39 +91,37 @@ export const renderContent = function (h, { root, node, data }) {
       paddingBottom: '4px',
       borderBottom: '1px solid #eee'
     },
-    // attrs: {
-    //   draggable: 'true'
-    // },
-    // on: {
-    //   dragstart (root, node, data) {
-    //     const event = window.event || arguments[0]
-    //     vm.dragstartNode = node
-    //     vm.dragstartData = data
-    //   },
-    //   dragover (root, node, data) {
-    //     const event = window.event || arguments[0]
-    //     event.preventDefault()
-    //   },
-    //   dragend (root, node, data) {
-    //     const event = window.event || arguments[0]
-    //     event.preventDefault()
-    //   },
-    //   drop (root, node, data) {
-    //     event.preventDefault()
-    //     if (node === vm.dragstartNode) return
-    //     const target_parentKey = root.find(el => el === node).parent
-    //     const target_parent = root.find(el => el.nodeKey === target_parentKey).node
-    //     const target_index = target_parent.children.indexOf(data)
-    //     const target_children = data.children || []
-    //     target_children.push(vm.dragstartData)
-    //     this.$set(data, 'children', target_children)
-    //     const source_parentKey = root.find(el => el === vm.dragstartNode).parent
-    //     const source_parent = root.find(el => el.nodeKey === source_parentKey).node
-    //     const source_index = source_parent.children.indexOf(vm.dragstartData)
-    //     source_parent.children.splice(source_index, 1)
-    //     console.log(vm.data5, 'data5')
-    //   },
-    // }
+    attrs: {
+      draggable: 'true'
+    },
+    on: {
+      dragstart () {
+        vm.dragstartNode = node
+        vm.dragstartData = data
+      },
+      dragover () {
+        const event = window.event || arguments[0]
+        event.preventDefault()
+      },
+      dragend () {
+        const event = window.event || arguments[0]
+        event.preventDefault()
+      },
+      drop () {
+        event.preventDefault()
+        if (node === vm.dragstartNode) return
+        const target_parentKey = root.find(el => el === node).parent
+        const target_parent = root.find(el => el.nodeKey === target_parentKey).node
+        const target_index = target_parent.children.indexOf(data)
+        const target_children = data.children || []
+        target_children.push(vm.dragstartData)
+        vm.$set(data, 'children', target_children)
+        const source_parentKey = root.find(el => el === vm.dragstartNode).parent
+        const source_parent = root.find(el => el.nodeKey === source_parentKey).node
+        const source_index = source_parent.children.indexOf(vm.dragstartData)
+        source_parent.children.splice(source_index, 1)
+      },
+    }
   }, [
     h('Row', {
       props: {
