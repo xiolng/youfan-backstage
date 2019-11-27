@@ -27,51 +27,39 @@
 <script>
   import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getPayList } from '@/api/payManage/PayList'
+  import { getPaymentList } from '@/api/payManage/PaymentRun'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '会员名',
-            key: 'memberName',
+            title: '商铺',
+            key: 'shopName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '次数',
-            key: 'payNumber',
+            title: '会员',
+            key: 'memberName',
             ellipsis: true,
             minWidth: 50,
             tooltip: true
           },
           {
-            title: '权益券',
+            title: '优惠',
             key: 'discountName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '价格',
-            key: 'payMoney',
+            title: '次数',
+            key: 'number',
             ellipsis: true,
             minWidth: 50,
             tooltip: true
-          },
-          {
-            title: '支付状态',
-            key: 'status',
-            minWidth: 100,
-            render (h, params) {
-              return h('Tag', {
-                props: {
-                  color: `${+params.row.status === 1 ? 'success' : 'warning'}`
-                }
-              }, +params.row.status === 1 ? '支付成功' : '支付中')
-            }
           },
           {
             title: '日期',
@@ -95,7 +83,7 @@
     },
     methods: {
       getList () {
-        getPayList({
+        getPaymentList({
           ...this.pages,
           ...this.searchName
         }).then(res => {

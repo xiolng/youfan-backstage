@@ -153,14 +153,38 @@ const routes = [
         name: '支付管理',
         icon: 'logo-yen',
         component: () => import('@/views/PayManage'),
-        redirect: { name: '流水' },
+        redirect: { name: '权益券流水' },
         children: [
           {
             path: 'runningWater',
-            name: '流水',
+            name: '权益券流水',
             component: () => import('@/views/PayManage/PayList'),
             meta: {
               searchKey: 'PayList'
+            }
+          },
+          {
+            path: 'paymentRun',
+            name: '支付流水',
+            component: () => import('@/views/PayManage/PaymentRun'),
+            meta: {
+              searchKey: 'PaymentRun'
+            }
+          },
+          {
+            path: 'exportRun',
+            name: '导出流水',
+            component: () => import('@/views/PayManage/ExportRun'),
+            meta: {
+              searchKey: 'ExportRun'
+            }
+          },
+          {
+            path: 'importRun',
+            name: '导入流水',
+            component: () => import('@/views/PayManage/ImportRun'),
+            meta: {
+              searchKey: 'ImportRun'
             }
           },
         ]

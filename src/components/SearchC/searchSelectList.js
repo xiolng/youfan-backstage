@@ -60,10 +60,32 @@ const searchSelectList = {
     }
   ],
   // 支付管理
+  // 权益券流水
   PayList: [
     {
-      key: 'payName',
-      name: '流水名'
+      key: 'memberName',
+      name: '会员名'
+    }
+  ],
+  // 支付流水
+  PaymentRun: [
+    {
+      key: 'memberName',
+      name: '会员名'
+    }
+  ],
+  // 导出流水
+  ExportRun: [
+    {
+      key: 'basicsName',
+      name: '卡券名'
+    }
+  ],
+  // 导入会员流水
+  ImportRun: [
+    {
+      key: 'basicsName',
+      name: '卡券名'
     }
   ],
   // 基础管理

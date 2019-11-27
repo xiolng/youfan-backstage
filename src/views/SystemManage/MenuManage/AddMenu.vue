@@ -11,7 +11,7 @@
         <Input v-model="formValidate.title" placeholder="请输入菜单名"/>
       </FormItem>
       <FormItem label="icon" prop="icon">
-        <Input v-model="formValidate.icon" placeholder="请输入icon名"/>
+        <Input v-model="formValidate.icon" @on-enter="modalOk" placeholder="请输入icon名"/>
       </FormItem>
     </Form>
     <Row type="flex" justify="end" :gutter="20">

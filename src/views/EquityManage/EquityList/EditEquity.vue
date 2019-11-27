@@ -152,6 +152,11 @@
         this.$refs['formValidate'].resetFields()
         this.callback()
       },
+      /**
+       * 上传封面
+       * @param data
+       * @returns {boolean}
+       */
       updateCover (data) {
         let file = new FormData()
         file.append('file', data)
@@ -160,6 +165,12 @@
         })
         return false
       },
+      /**
+       * 选择商铺
+       * @param newTargetKeys
+       * @param direction
+       * @param moveKeys
+       */
       handleChange (newTargetKeys, direction, moveKeys) {
         this.formValidate.shopId = newTargetKeys
       }

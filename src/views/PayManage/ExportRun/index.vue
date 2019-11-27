@@ -27,51 +27,32 @@
 <script>
   import SearchC from '@/components/SearchC/SearchC' // 搜索框
   import PageM from '@/components/PageC/PageC' // 分页
-  import { getPayList } from '@/api/payManage/PayList'
+  import { getExportList } from '@/api/payManage/ExportRun'
 
   export default {
     data () {
       return {
         columns1: [
           {
-            title: '会员名',
-            key: 'memberName',
+            title: '卡券',
+            key: 'basicsName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
           },
           {
-            title: '次数',
-            key: 'payNumber',
+            title: '张数',
+            key: 'number',
             ellipsis: true,
             minWidth: 50,
             tooltip: true
           },
           {
-            title: '权益券',
-            key: 'discountName',
+            title: 'excel名称',
+            key: 'excelName',
             ellipsis: true,
             minWidth: 150,
             tooltip: true
-          },
-          {
-            title: '价格',
-            key: 'payMoney',
-            ellipsis: true,
-            minWidth: 50,
-            tooltip: true
-          },
-          {
-            title: '支付状态',
-            key: 'status',
-            minWidth: 100,
-            render (h, params) {
-              return h('Tag', {
-                props: {
-                  color: `${+params.row.status === 1 ? 'success' : 'warning'}`
-                }
-              }, +params.row.status === 1 ? '支付成功' : '支付中')
-            }
           },
           {
             title: '日期',
@@ -79,7 +60,14 @@
             ellipsis: true,
             minWidth: 150,
             tooltip: true
-          }
+          },
+          {
+            title: '导出人',
+            key: 'createBy',
+            ellipsis: true,
+            minWidth: 50,
+            tooltip: true
+          },
         ],
         data1: [],
         total: 0,
@@ -95,7 +83,7 @@
     },
     methods: {
       getList () {
-        getPayList({
+        getExportList({
           ...this.pages,
           ...this.searchName
         }).then(res => {
