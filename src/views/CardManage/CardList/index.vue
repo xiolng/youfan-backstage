@@ -49,7 +49,7 @@
       <!--编辑卡券-->
       <AddCard :callback="closeModal" v-if="showAdd"></AddCard>
       <!--导出-->
-      <ExportCard :callback="closeModal" v-if="showExport"></ExportCard>
+      <ExportCard :callback="closeModal" :list-num="listNum()" v-if="showExport"></ExportCard>
     </Modal>
   </div>
 </template>
@@ -131,6 +131,16 @@
         this.searchName = data
         this.pages.beginPage = 1
         this.getList()
+      },
+      listNum () {
+        const list = []
+        this.data1.map(v => {
+          list.push({
+            id: v.basicsId,
+            sumUnused: v.sumUnused
+          })
+        })
+        return list
       }
     },
     components: {

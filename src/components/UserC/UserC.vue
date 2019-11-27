@@ -2,10 +2,10 @@
   <div class="user-box">
     <Dropdown>
       <!--用户头像-->
-      <Avatar size="default" :style="{background: iconBg}">{{userName && userName.split('')[0].toLocaleUpperCase()}}
+      <Avatar size="default" :style="{background: iconBg}">{{username && username.split('')[0].toLocaleUpperCase()}}
       </Avatar>
       <!--用户名称-->
-      <span class="name-txt">{{userName}}</span>
+      <span class="name-txt">{{username}}</span>
       <Icon type="md-arrow-dropdown" size="18"></Icon>
       <!--选择列表-->
       <DropdownMenu slot="list">
@@ -25,7 +25,7 @@
   export default {
     data () {
       return {
-        userName: '',
+        username: '',
         iconBg: ''
       }
     },
@@ -33,14 +33,15 @@
       this.setBg()
       // 获取用户详情
       const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-      if (!userInfo || !userInfo.userName) this.getUserInfo()
+      this.username = userInfo.username
+      if (!userInfo || !userInfo.username) this.getUserInfo()
     },
     methods: {
       // 获取用户详情
       getUserInfo () {
         getUserDetail().then(res => {
           localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-          this.userName = res.data.data.username
+          this.username = res.data.data.username
         })
       },
       // 目前没有图片,模拟背景色

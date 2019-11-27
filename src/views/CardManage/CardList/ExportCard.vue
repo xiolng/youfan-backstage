@@ -32,6 +32,7 @@
   export default {
     props: {
       show: Boolean,
+      listNum: Array,
       callback: Function
     },
     data () {
@@ -68,6 +69,11 @@
       modalOk () {
         this.$refs['formValidate'].validate((valid) => {
           if (valid) {
+            let activeId = this.listNum.filter(v => v.id === this.formValidate.basicsId)
+            if (+activeId[0].sumUnused <= (+this.formValidate.cardVolumeNumber + 1)) {
+              this.$Message.error('卡券不足，请重新生成卡券')
+              return false
+            }
             cardExport(this.formValidate).then(res => {
               if (res.data) {
                 this.exportCard({
