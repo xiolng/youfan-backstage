@@ -33,8 +33,11 @@
       this.setBg()
       // 获取用户详情
       const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-      this.username = userInfo.username
-      if (!userInfo || !userInfo.username) this.getUserInfo()
+      if (!userInfo || !userInfo.username) {
+        this.getUserInfo()
+      } else {
+        this.username = userInfo.username
+      }
     },
     methods: {
       // 获取用户详情

@@ -84,7 +84,7 @@ const searchSelectList = {
   // 导入会员流水
   ImportRun: [
     {
-      key: 'basicsName',
+      key: 'excelName',
       name: '卡券名'
     }
   ],

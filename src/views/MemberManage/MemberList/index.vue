@@ -179,6 +179,7 @@
           ...this.searchName
         }).then(res => {
           this.data1 = res.data.data
+          this.total = res.data.total
         })
       },
       uploadOk (files) {

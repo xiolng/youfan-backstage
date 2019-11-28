@@ -208,6 +208,13 @@
         this.showDel = true
       },
       delUser () {
+        let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (userInfo.id === this.removeUserId) {
+          this.$Notice.error({
+            title: '不能删除登录状态用户'
+          })
+          return false
+        }
         deleteUser({
           id: this.removeUserId
         }).then(res => {

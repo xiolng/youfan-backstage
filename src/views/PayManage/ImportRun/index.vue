@@ -41,6 +41,26 @@
             tooltip: true
           },
           {
+            title: '导入状态',
+            key: 'status',
+            ellipsis: true,
+            minWidth: 150,
+            render (h, params) {
+              return h('Tag', {
+                props: {
+                  color: `${+params.row.status === 1 ? 'success' : 'warning'}`
+                }
+              }, +params.row.status === 1 ? '导入成功' : '导入失败')
+            }
+          },
+          {
+            title: '详情',
+            key: 'remarks',
+            ellipsis: true,
+            minWidth: 150,
+            tooltip: true
+          },
+          {
             title: '日期',
             key: 'createTime',
             ellipsis: true,
